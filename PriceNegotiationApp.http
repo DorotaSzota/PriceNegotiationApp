@@ -1,0 +1,6 @@
+@PriceNegotiationApp_HostAddress = http://localhost:5049
+
+GET {{PriceNegotiationApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
