@@ -1,6 +1,10 @@
-﻿namespace PriceNegotiationApp.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class ProductCatalogueController
+namespace PriceNegotiationApp.Controllers;
+
+[Route("api/[controller]")]
+public class ProductCatalogueController : ControllerBase
 {
+
     
 }

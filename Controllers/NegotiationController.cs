@@ -1,6 +1,9 @@
-﻿namespace PriceNegotiationApp.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class NegotiationController
+namespace PriceNegotiationApp.Controllers;
+
+[Route("api/negotiation")]
+public class NegotiationController : ControllerBase
 {
     
 }

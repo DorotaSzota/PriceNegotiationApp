@@ -1,6 +1,8 @@
 ﻿namespace PriceNegotiationApp.Models;
 
-public class ProductCatalogue
+public class ProductCatalogue<Product>
 {
     
+
+
 }
