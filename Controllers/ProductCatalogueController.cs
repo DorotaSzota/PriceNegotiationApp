@@ -15,11 +15,12 @@ public class ProductCatalogueController : ControllerBase
         _productCatalogueService = productCatalogueService;
     }
 
-    [HttpGet]
-    public IEnumerable<GetProductDto> GetProduct()
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetProductDto>> GetSingle(int id)
     {
-        var result = _productCatalogueService.GetProduct();
+        var result = await _productCatalogueService.GetSingle(id);
         return result;
     }
+    
     
 }
