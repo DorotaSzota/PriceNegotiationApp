@@ -2,7 +2,8 @@
 
 namespace PriceNegotiationApp.Controllers;
 
-[Route("api/negotiation")]
+[ApiController]
+[Route("api/[controller]")]
 public class NegotiationController : ControllerBase
 {
     

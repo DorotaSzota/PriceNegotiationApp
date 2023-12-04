@@ -1,21 +1,31 @@
 global using Microsoft.EntityFrameworkCore;
 global using MediatR;
+using PriceNegotiationApp.Services;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseRouting();
 app.MapControllers();
-
+app.UseAuthorization(); //prolly not needed in this project
 app.Run();
 
