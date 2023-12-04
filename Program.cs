@@ -2,6 +2,8 @@ global using Microsoft.EntityFrameworkCore;
 global using MediatR;
 using PriceNegotiationApp.Services;
 using Microsoft.AspNetCore.Builder;
+using PriceNegotiationApp.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<PriceNegotiationDbContext>(options =>
+       options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
+
 
 
 var app = builder.Build();

@@ -4,14 +4,11 @@ namespace PriceNegotiationApp.Data;
 
 public class PriceNegotiationDbContext : DbContext
 {
-    public DbSet<Product> Products { get; set; }
-    public string DbPath { get; }
-
-    public PriceNegotiationDbContext()
+    public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
     {
-        DbPath = "PriceNegotiationDb.db";
     }
-
+    public DbSet<Product> Products => Set<Product>();
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>().Property(p => p.ProductName).IsRequired().HasMaxLength(50);
@@ -19,9 +16,6 @@ public class PriceNegotiationDbContext : DbContext
         modelBuilder.Entity<Product>().Property(p => p.ProductPrice).IsRequired().HasColumnType("decimal(5,2)");
     }
 
+  
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite($"Data Source={DbPath}");
-    }   
 }
