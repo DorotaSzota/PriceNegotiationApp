@@ -21,6 +21,8 @@ public class ProductCatalogueController : ControllerBase
         var result = await _productCatalogueService.GetSingle(id);
         return result;
     }
+
+
     
     
 }
