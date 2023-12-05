@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PriceNegotiationApp.Controllers;
 
@@ -15,11 +18,10 @@ public class ProductCatalogueController : ControllerBase
         _productCatalogueService = productCatalogueService;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<GetProductDto>> GetSingle(int id)
+    [HttpGet("GetAllProducts")]
+    public async Task<ServiceResponse<List<GetProductDto>>> Get()
     {
-        var result = await _productCatalogueService.GetSingle(id);
-        return result;
+        return Ok(await _productCatalogueService.GetAllProducts);
     }
 
 

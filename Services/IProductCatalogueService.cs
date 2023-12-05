@@ -5,5 +5,5 @@ namespace PriceNegotiationApp.Services;
 
 public interface IProductCatalogueService
 {
-    Task<ActionResult<GetProductDto>> GetSingle(int id);
+    Task<ServiceResponse<List<GetProductDto>>> GetAllProducts();
 }

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Models;
 
 namespace PriceNegotiationApp.Services;
 
 public class ProductCatalogueService : IProductCatalogueService
 {
-    public Task<ActionResult<GetProductDto>> GetSingle(int id)
+    private readonly PriceNegotiationDbContext _dbContext;
+    public Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
     {
         throw new NotImplementedException();
     }
