@@ -5,7 +5,7 @@ using PriceNegotiationApp.Services;
 namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class ProductCatalogueController : ControllerBase
 {
     private readonly IProductCatalogueService _productCatalogueService;
@@ -23,14 +23,14 @@ public class ProductCatalogueController : ControllerBase
     }
 
     [HttpGet("GetProductById/{id}")]
-    public async Task<ActionResult<GetProductDto>> GetProductById(int id)
+    public async Task<ActionResult<GetProductDto>> GetProductById([FromRoute]int id)
     {
         var serviceResponse = await _productCatalogueService.GetProductById(id);
         return Ok(serviceResponse);
     }
 
     [HttpPost("AddProduct")]
-    public async Task<ActionResult<GetProductDto>> AddProduct(AddProductDto newProduct)
+    public async Task<ActionResult<GetProductDto>> AddProduct([FromBody]AddProductDto newProduct)
     {
         var serviceResponse = await _productCatalogueService.AddProduct(newProduct);
         if (serviceResponse.Success)
@@ -41,14 +41,14 @@ public class ProductCatalogueController : ControllerBase
     }
 
     [HttpDelete("DeleteProduct/{id}")]
-    public async Task<ActionResult<GetProductDto>> DeleteProduct(int id)
+    public async Task<ActionResult<GetProductDto>> DeleteProduct([FromRoute]int id)
     {
         var serviceResponse = await _productCatalogueService.DeleteProduct(id);
         if (serviceResponse.Success)
         {
             return Ok(serviceResponse);
         }
-        return BadRequest(serviceResponse);
+        return NotFound(serviceResponse);
     }
 
 

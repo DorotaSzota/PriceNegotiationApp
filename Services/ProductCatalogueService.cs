@@ -8,11 +8,12 @@ namespace PriceNegotiationApp.Services;
 public class ProductCatalogueService : IProductCatalogueService
 {
     private readonly PriceNegotiationDbContext _dbContext;
-    private readonly ServiceResponse<AddProductDto> _serviceResponse = new ServiceResponse<AddProductDto>();
+    private readonly ILogger<ProductCatalogueService> _logger;
 
-    public ProductCatalogueService(PriceNegotiationDbContext dbContext)
+    public ProductCatalogueService(PriceNegotiationDbContext dbContext, ILogger<ProductCatalogueService> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
     
    
@@ -33,7 +34,8 @@ public class ProductCatalogueService : IProductCatalogueService
     public async Task<ServiceResponse<AddProductDto>> AddProduct(AddProductDto newProduct)
 {
     var serviceResponse = new ServiceResponse<AddProductDto>();
-    
+    _logger.LogInformation($"Added product {newProduct}");
+
         if (newProduct.ProductPrice <= 0)
         {
             serviceResponse.Success = false;
@@ -52,12 +54,14 @@ public class ProductCatalogueService : IProductCatalogueService
 
         await _dbContext.Products.AddAsync(product);
         await _dbContext.SaveChangesAsync();
-    
+        serviceResponse.Data = newProduct;
+        serviceResponse.Message = "Product added successfully.";
         return serviceResponse;
 }
 
     public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
     {
+        _logger.LogInformation($"Deleting product with id: {id}");
         var serviceResponse = new ServiceResponse<List<GetProductDto>>();
         try
         {

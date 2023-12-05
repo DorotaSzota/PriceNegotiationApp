@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Builder;
 using PriceNegotiationApp.Data;
 using System.Reflection.Metadata;
 
+using NLog.Web;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Host.UseNLog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -22,7 +24,6 @@ builder.Services.AddScoped<PriceNegotiationSeeder>(sp =>
     return new PriceNegotiationSeeder(dbContext);
 });
 
-builder.Services.AddScoped< ProductCatalogueService>();
 builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
 
 
@@ -41,6 +42,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
-app.UseAuthorization(); 
+app.UseAuthorization();
 app.Run();
 
