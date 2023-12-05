@@ -35,6 +35,7 @@ public class ProductCatalogueService : IProductCatalogueService
             ProductName = newProduct.ProductName,
             ProductCategory = newProduct.ProductCategory,
             ProductDescription = newProduct.ProductDescription,
+            ProductPrice = newProduct.ProductPrice,
             IsAvailable = newProduct.IsAvailable
 
         };
