@@ -41,10 +41,9 @@ public class ProductCatalogueController : ControllerBase
     }
 
     [HttpDelete("DeleteProduct/{id}")]
-    public async Task<ActionResult<GetProductDto>> DeleteProduct([FromRoute]int id)
+    public async Task<ActionResult> DeleteProduct([FromRoute]int id)
     {
-        var serviceResponse = await _productCatalogueService.DeleteProduct(id);
-
+        await _productCatalogueService.DeleteProduct(id);
         return NoContent();
 
     }

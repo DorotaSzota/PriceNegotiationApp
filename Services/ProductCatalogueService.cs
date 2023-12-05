@@ -17,7 +17,6 @@ public class ProductCatalogueService : IProductCatalogueService
         _logger = logger;
     }
     
-   
     public async Task<List<GetProductDto>> GetAllProducts()
     {
         
@@ -65,7 +64,7 @@ public class ProductCatalogueService : IProductCatalogueService
         return serviceResponse;
 }
 
-    public async Task<List<GetProductDto>> DeleteProduct(int id)
+    public async Task DeleteProduct(int id)
     {
         _logger.LogInformation($"Deleted product with id: {id}.");
        
@@ -77,8 +76,5 @@ public class ProductCatalogueService : IProductCatalogueService
 
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
-            return await GetAllProducts();
-        
-        
     }
 }
