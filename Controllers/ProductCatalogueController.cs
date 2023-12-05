@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PriceNegotiationApp.Models;
+﻿using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace PriceNegotiationApp.Controllers;
 
@@ -19,9 +16,10 @@ public class ProductCatalogueController : ControllerBase
     }
 
     [HttpGet("GetAllProducts")]
-    public async Task<ServiceResponse<List<GetProductDto>>> Get()
+    public async Task<ActionResult<List<GetProductDto>>> GetAll()
     {
-        return Ok(await _productCatalogueService.GetAllProducts);
+        var serviceResponse = await _productCatalogueService.GetAllProducts();
+        return Ok(serviceResponse);
     }
 
 

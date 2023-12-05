@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Data;
+using PriceNegotiationApp.Mappers;
 using PriceNegotiationApp.Models;
 
 namespace PriceNegotiationApp.Services;
@@ -7,10 +8,17 @@ namespace PriceNegotiationApp.Services;
 public class ProductCatalogueService : IProductCatalogueService
 {
     private readonly PriceNegotiationDbContext _dbContext;
-    public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
-    {
-        var serviceResponse = new ServiceResponse<List<GetProductDto>>();
 
+    public ProductCatalogueService(PriceNegotiationDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+   
+    public async Task<List<GetProductDto>> GetAllProducts()
+    {
+        
+        var products = await _dbContext.Products.ToListAsync();
+        return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
 
     }
 }
