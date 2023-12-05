@@ -44,11 +44,9 @@ public class ProductCatalogueController : ControllerBase
     public async Task<ActionResult<GetProductDto>> DeleteProduct([FromRoute]int id)
     {
         var serviceResponse = await _productCatalogueService.DeleteProduct(id);
-        if (serviceResponse.Success)
-        {
-            return Ok(serviceResponse);
-        }
-        return NotFound(serviceResponse);
+
+        return NoContent();
+
     }
 
 

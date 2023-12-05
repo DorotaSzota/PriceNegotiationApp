@@ -1,11 +1,13 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Http;
 using PriceNegotiationApp.Services;
-using Microsoft.AspNetCore.Builder;
 using PriceNegotiationApp.Data;
+using Microsoft.AspNetCore.Builder;
 using System.Reflection.Metadata;
 
 using NLog.Web;
+using PriceNegotiationApp.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +27,7 @@ builder.Services.AddScoped<PriceNegotiationSeeder>(sp =>
 });
 
 builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 
 var app = builder.Build();

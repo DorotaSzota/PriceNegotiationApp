@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Data;
+using PriceNegotiationApp.Exceptions;
 using PriceNegotiationApp.Mappers;
 using PriceNegotiationApp.Models;
 
@@ -28,18 +29,23 @@ public class ProductCatalogueService : IProductCatalogueService
     public async Task<GetProductDto> GetProductById(int id)
     {
         var product = await _dbContext.Products.FindAsync(id);
+        if (product is null)
+        {
+            throw new NotFoundException("Product id not found.");
+        }
         return ProductMapper.MapProductToGetProductDto(product);
+        
     }
 
     public async Task<ServiceResponse<AddProductDto>> AddProduct(AddProductDto newProduct)
 {
     var serviceResponse = new ServiceResponse<AddProductDto>();
-    _logger.LogInformation($"Added product {newProduct}");
+    _logger.LogInformation($"Added product {newProduct}.");
 
         if (newProduct.ProductPrice <= 0)
         {
             serviceResponse.Success = false;
-            serviceResponse.Message = "The price must cannot be 0.";
+            serviceResponse.Message = "The price cannot be 0.";
             return serviceResponse;
         }
 
@@ -59,29 +65,20 @@ public class ProductCatalogueService : IProductCatalogueService
         return serviceResponse;
 }
 
-    public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
+    public async Task<List<GetProductDto>> DeleteProduct(int id)
     {
-        _logger.LogInformation($"Deleting product with id: {id}");
-        var serviceResponse = new ServiceResponse<List<GetProductDto>>();
-        try
-        {
+        _logger.LogInformation($"Deleted product with id: {id}.");
+       
             var product = await _dbContext.Products.FirstAsync(p => p.Id == id);
             if (product is null)
             {
-                serviceResponse.Success = false;
-                return serviceResponse;
+                throw new NotFoundException("Product id not found.");
             }
 
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
-            serviceResponse.Data = _dbContext.Products.Select(ProductMapper.MapProductToGetProductDto).ToList();
-        }
-        catch (Exception e)
-        {
-            serviceResponse.Success = false;
-            serviceResponse.Message = e.Message;
-        }
-
-        return serviceResponse;
+            return await GetAllProducts();
+        
+        
     }
 }
