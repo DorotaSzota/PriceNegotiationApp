@@ -37,7 +37,7 @@ public class ProductCatalogueService : IProductCatalogueService
         if (newProduct.ProductPrice <= 0)
         {
             serviceResponse.Success = false;
-            serviceResponse.Message = "Cena produktu musi być większa od zera.";
+            serviceResponse.Message = "The price must cannot be 0.";
             return serviceResponse;
         }
 
@@ -55,4 +55,28 @@ public class ProductCatalogueService : IProductCatalogueService
     
         return serviceResponse;
 }
+    public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
+    {
+        var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+        try
+        {
+            var product = await _dbContext.Products.FirstAsync(p => p.Id == id);
+            if (product is null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = $"Product id {id} not found.";
+                return serviceResponse;
+            }
+
+            _dbContext.Products.Remove(product);
+            await _dbContext.SaveChangesAsync();
+            serviceResponse.Data = _dbContext.Products.Select(ProductMapper.MapProductToGetProductDto).ToList();
+        }
+        catch (Exception e)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = e.Message;
+        }
+
+        return serviceResponse;
 }
