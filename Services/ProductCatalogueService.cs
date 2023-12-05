@@ -55,6 +55,7 @@ public class ProductCatalogueService : IProductCatalogueService
     
         return serviceResponse;
 }
+
     public async Task<ServiceResponse<List<GetProductDto>>> DeleteProduct(int id)
     {
         var serviceResponse = new ServiceResponse<List<GetProductDto>>();
@@ -64,7 +65,6 @@ public class ProductCatalogueService : IProductCatalogueService
             if (product is null)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = $"Product id {id} not found.";
                 return serviceResponse;
             }
 
@@ -79,4 +79,5 @@ public class ProductCatalogueService : IProductCatalogueService
         }
 
         return serviceResponse;
+    }
 }

@@ -1,5 +1,4 @@
 global using Microsoft.EntityFrameworkCore;
-global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +41,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
-app.UseAuthorization(); //prolly not needed in this project
+app.UseAuthorization(); 
 app.Run();
 
