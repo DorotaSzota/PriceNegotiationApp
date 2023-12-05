@@ -22,6 +22,20 @@ public class ProductCatalogueController : ControllerBase
         return Ok(serviceResponse);
     }
 
+    [HttpGet("GetProductById/{id}")]
+    public async Task<ActionResult<GetProductDto>> GetProductById(int id)
+    {
+        var serviceResponse = await _productCatalogueService.GetProductById(id);
+        return Ok(serviceResponse);
+    }
+
+    [HttpPost("AddProduct")]
+    public async Task<ActionResult<GetProductDto>> AddProduct(AddProductDto newProduct)
+    {
+        var serviceResponse = await _productCatalogueService.AddProduct(newProduct);
+        return Ok(serviceResponse);
+    }
+
 
     
     

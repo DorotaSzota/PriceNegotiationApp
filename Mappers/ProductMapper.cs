@@ -14,5 +14,16 @@ namespace PriceNegotiationApp.Mappers
                 IsAvailable = product.IsAvailable
             };
         }
+        public static AddProductDto MapProductToAddProductDto(Product product)
+        {
+            return new AddProductDto
+            {
+                ProductName = product.ProductName,
+                ProductCategory = product.ProductCategory,
+                ProductDescription = product.ProductDescription,
+                ProductPrice = product.ProductPrice,
+                IsAvailable = product.IsAvailable
+            };
+        }
     }
 }

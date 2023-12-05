@@ -21,4 +21,25 @@ public class ProductCatalogueService : IProductCatalogueService
         return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
 
     }
+
+    public async Task<GetProductDto> GetProductById(int id)
+    {
+        var product = await _dbContext.Products.FindAsync(id);
+        return ProductMapper.MapProductToGetProductDto(product);
+    }
+
+    public async Task<AddProductDto> AddProduct(AddProductDto newProduct)
+    {
+        var product = new Product
+        {
+            ProductName = newProduct.ProductName,
+            ProductCategory = newProduct.ProductCategory,
+            ProductDescription = newProduct.ProductDescription,
+            IsAvailable = newProduct.IsAvailable
+
+        };
+        await _dbContext.Products.AddAsync(product);
+        await _dbContext.SaveChangesAsync();
+        return newProduct;
+    }
 }
