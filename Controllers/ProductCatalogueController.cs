@@ -33,7 +33,11 @@ public class ProductCatalogueController : ControllerBase
     public async Task<ActionResult<GetProductDto>> AddProduct(AddProductDto newProduct)
     {
         var serviceResponse = await _productCatalogueService.AddProduct(newProduct);
-        return Ok(serviceResponse);
+        if (serviceResponse.Success)
+        {
+            return Ok(serviceResponse);
+        }
+        return BadRequest(serviceResponse);
     }
 
 

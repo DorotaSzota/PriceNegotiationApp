@@ -8,11 +8,13 @@ namespace PriceNegotiationApp.Services;
 public class ProductCatalogueService : IProductCatalogueService
 {
     private readonly PriceNegotiationDbContext _dbContext;
+    private readonly ServiceResponse<AddProductDto> _serviceResponse = new ServiceResponse<AddProductDto>();
 
     public ProductCatalogueService(PriceNegotiationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
+    
    
     public async Task<List<GetProductDto>> GetAllProducts()
     {
@@ -28,8 +30,17 @@ public class ProductCatalogueService : IProductCatalogueService
         return ProductMapper.MapProductToGetProductDto(product);
     }
 
-    public async Task<AddProductDto> AddProduct(AddProductDto newProduct)
-    {
+    public async Task<ServiceResponse<AddProductDto>> AddProduct(AddProductDto newProduct)
+{
+    var serviceResponse = new ServiceResponse<AddProductDto>();
+    
+        if (newProduct.ProductPrice <= 0)
+        {
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Cena produktu musi być większa od zera.";
+            return serviceResponse;
+        }
+
         var product = new Product
         {
             ProductName = newProduct.ProductName,
@@ -37,10 +48,11 @@ public class ProductCatalogueService : IProductCatalogueService
             ProductDescription = newProduct.ProductDescription,
             ProductPrice = newProduct.ProductPrice,
             IsAvailable = newProduct.IsAvailable
-
         };
+
         await _dbContext.Products.AddAsync(product);
         await _dbContext.SaveChangesAsync();
-        return newProduct;
-    }
+    
+        return serviceResponse;
+}
 }
