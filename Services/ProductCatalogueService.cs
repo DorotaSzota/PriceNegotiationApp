@@ -7,8 +7,10 @@ namespace PriceNegotiationApp.Services;
 public class ProductCatalogueService : IProductCatalogueService
 {
     private readonly PriceNegotiationDbContext _dbContext;
-    public Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
+    public async Task<ServiceResponse<List<GetProductDto>>> GetAllProducts()
     {
-        throw new NotImplementedException();
+        var serviceResponse = new ServiceResponse<List<GetProductDto>>();
+
+
     }
 }
