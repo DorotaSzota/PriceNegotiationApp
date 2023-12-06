@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Exceptions;
 using PriceNegotiationApp.Mappers;
@@ -8,11 +9,13 @@ namespace PriceNegotiationApp.Services;
 
 public class ProductCatalogueService : IProductCatalogueService
 {
+    private readonly IMapper _mapper;
     private readonly PriceNegotiationDbContext _dbContext;
     private readonly ILogger<ProductCatalogueService> _logger;
 
-    public ProductCatalogueService(PriceNegotiationDbContext dbContext, ILogger<ProductCatalogueService> logger)
+    public ProductCatalogueService(IMapper mapper,PriceNegotiationDbContext dbContext, ILogger<ProductCatalogueService> logger)
     {
+        _mapper = mapper;
         _dbContext = dbContext;
         _logger = logger;
     }

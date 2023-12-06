@@ -4,17 +4,16 @@ namespace PriceNegotiationApp.Data;
 
 public class PriceNegotiationDbContext : DbContext
 {
-    //!!!IMPORTANT!!!: The following code is commented out because it is used only for seeding the database with some data.
-    //If you want to use it, uncomment it and also uncomment the constructor below.
+    //!!!IMPORTANT!!! For future migrations comment out the seeder fields and the constructor
 
 
-    //private readonly PriceNegotiationSeeder _seeder;
+    private readonly PriceNegotiationSeeder _seeder;
 
-    //public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
-    //{
-    //    _seeder = new PriceNegotiationSeeder(this);
-    //    _seeder.Seed();
-    //}
+    public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
+    {
+        _seeder = new PriceNegotiationSeeder(this);
+        _seeder.Seed();
+    }
     public DbSet<Product> Products => Set<Product>();
     public DbSet<PriceProposal> PriceProposals => Set<PriceProposal>();
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PriceNegotiationApp.Commands;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Queries;
 
@@ -22,17 +23,15 @@ public class PriceNegotiationController : ControllerBase
         return Ok(await _mediator.Send(new GetProductListQuery()));
     }
 
-
-
-
-    //[HttpPost]
-    //public async Task<ActionResult> Post(AddProductDto addProductDto)
-    //{
-    //    await _mediator.Send(new AddProductCommand(addProductDto));
-    //    return Ok();
-    //}
-
-   
-
-
+    [HttpPost("AddPriceProposal")]
+    public async Task<ActionResult> AddPriceProposal(PriceProposalDto priceProposal)
+    {
+        await _mediator.Send(new AddPriceProposalCommand(priceProposal));
+        return Ok();
     }
+
+
+
+
+
+}

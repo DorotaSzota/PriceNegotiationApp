@@ -14,4 +14,5 @@ Implementation Requirements:
 
 
 # Things for further improvement
+	- Logs are optional in this project, might as well be opted out in ProductCatalogueService
 	- Add date to negotiated prices

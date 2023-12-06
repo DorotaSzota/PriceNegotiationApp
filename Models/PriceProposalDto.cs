@@ -10,4 +10,6 @@ public class PriceProposalDto
     public int AttemptsLeft { get; set; } = 3;
     public string Message { get; set; } = string.Empty;
 
+    public List<GetProductDto> Products { get; set; } 
+
 }

@@ -31,9 +31,9 @@ builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
 builder.Services.AddScoped<IPriceNegotiationService, PriceNegotiationService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

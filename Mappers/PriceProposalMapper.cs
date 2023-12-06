@@ -4,11 +4,11 @@ namespace PriceNegotiationApp.Mappers;
 
 public class PriceProposalMapper
 {
-    public static PriceProposalDto MapProductToPriceProposalDto(PriceProposal priceProposal, Product product)
+    public static PriceProposalDto MapPriceProposalToPriceProposalDto(PriceProposal priceProposal)
     {
         return new PriceProposalDto
         {
-            ProductId = product.Id,
+            ProductId = priceProposal.Id,
             ProposedPrice1 = priceProposal.ProposedPrice1,
             ProposedPrice2 = priceProposal.ProposedPrice2,
             ProposedPrice3 = priceProposal.ProposedPrice3, 
