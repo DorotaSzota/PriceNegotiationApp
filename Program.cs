@@ -1,11 +1,12 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Http;
+using MediatR;
+using System.Reflection;
 using PriceNegotiationApp.Services;
 using PriceNegotiationApp.Data;
 using Microsoft.AspNetCore.Builder;
 using System.Reflection.Metadata;
-
 using NLog.Web;
 using PriceNegotiationApp.Middleware;
 
@@ -27,8 +28,9 @@ builder.Services.AddScoped<PriceNegotiationSeeder>(sp =>
 });
 
 builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
+builder.Services.AddScoped<IPriceNegotiationService, PriceNegotiationService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));   //to check
 
 var app = builder.Build();
 
