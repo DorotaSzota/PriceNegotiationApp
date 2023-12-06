@@ -22,10 +22,8 @@ public class ProductCatalogueService : IProductCatalogueService
     
     public async Task<List<GetProductDto>> GetAllProducts()
     {
-        
         var products = await _dbContext.Products.ToListAsync();
         return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
-
     }
 
     public async Task<GetProductDto> GetProductById(int id)
@@ -36,31 +34,33 @@ public class ProductCatalogueService : IProductCatalogueService
             throw new NotFoundException("Product id not found.");
         }
         return ProductMapper.MapProductToGetProductDto(product);
-        
     }
 
     public async Task<AddProductDto> AddProduct(AddProductDto dto)
     {
         _logger.LogInformation($"Added product {dto}.");
 
-            var product = _mapper.Map<Product>(dto);
-            if (dto.ProductPrice <= 0)
-            {
-                throw new BadRequestException("Product price must be greater than 0.");
-            }
+        var product = _mapper.Map<Product>(dto);
+        if (product.ProductPrice <= 0)
+        {
+            throw new BadRequestException("Price cannot be 0 or negative.");
+        }
+        if (product.ProductName == null)
+        {
+            throw new BadRequestException("Product name cannot be null.");
+        }
+        if (product.ProductDescription == null)
+        {
+            throw new BadRequestException("Product description cannot be null.");
 
-            //var product = new Product
-            //{
-            //    ProductName = newProduct.ProductName,
-            //    ProductCategory = newProduct.ProductCategory,
-            //    ProductDescription = newProduct.ProductDescription,
-            //    ProductPrice = newProduct.ProductPrice,
-            //    IsAvailable = newProduct.IsAvailable
-            //};
-
-            await _dbContext.Products.AddAsync(product);
-            await _dbContext.SaveChangesAsync();
-            return _mapper.Map<AddProductDto>(product);
+        }
+        if (product.ProductCategory == null)
+        {
+            throw new BadRequestException("Product category cannot be null.");
+        }
+        await _dbContext.Products.AddAsync(product);
+        await _dbContext.SaveChangesAsync();
+        return _mapper.Map<AddProductDto>(product);
     }
 
     public async Task DeleteProduct(int id)
@@ -72,7 +72,6 @@ public class ProductCatalogueService : IProductCatalogueService
             {
                 throw new NotFoundException("Product id not found.");
             }
-
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
     }

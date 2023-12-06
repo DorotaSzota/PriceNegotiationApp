@@ -30,14 +30,11 @@ public class ProductCatalogueController : ControllerBase
     }
 
     [HttpPost("AddProduct")]
-    public async Task<ActionResult<GetProductDto>> AddProduct([FromBody]AddProductDto newProduct)
+    public async Task<ActionResult<AddProductDto>> AddProduct([FromBody]AddProductDto newProduct)
     {
         var serviceResponse = await _productCatalogueService.AddProduct(newProduct);
-        if (ModelState.IsValid)
-        {
+       
             return Ok(serviceResponse);
-        }
-        return BadRequest(serviceResponse);
     }
 
     [HttpDelete("DeleteProduct/{id}")]

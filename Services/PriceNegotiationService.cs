@@ -36,16 +36,16 @@ public class PriceNegotiationService : IPriceNegotiationService
 
         if (proposal.Accepted == false & proposal.AttemptsLeft>=0)
         {
-            if (priceProposal.ProposedPrice1 == 2 * (priceProposal.ProductPrice))
+            if (priceProposal.ProposedPrice1 == 2 * (proposal.ProductPrice))
             {
                 throw new Exception("The proposed price is double the product price. The price proposal is rejected.");
                 _dbContext.PriceProposals.Remove(proposal);
             }
-            if (priceProposal.ProposedPrice1 > priceProposal.ProductPrice)
+            if (priceProposal.ProposedPrice1 > proposal.ProductPrice)
             {
                 _dbContext.SaveChanges();
             }
-            else if (priceProposal.ProposedPrice1 < priceProposal.ProductPrice)
+            else if (priceProposal.ProposedPrice1 < proposal.ProductPrice)
             {
                 throw new BadRequestException("The proposed price is lower than the product price.");
             }

@@ -15,4 +15,10 @@ Implementation Requirements:
 
 # Things for further improvement
 	- Logs are optional in this project, might as well be opted out in ProductCatalogueService
+	- Add update endpoint in the product catalogue service
 	- Add date to negotiated prices
+
+
+# To do:
+	- priceproposal and product mappers might need removal - check
+	
