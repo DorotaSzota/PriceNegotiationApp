@@ -39,33 +39,29 @@ public class ProductCatalogueService : IProductCatalogueService
         
     }
 
-    public async Task<ServiceResponse<AddProductDto>> AddProduct(AddProductDto newProduct)
-{
-    var serviceResponse = new ServiceResponse<AddProductDto>();
-    _logger.LogInformation($"Added product {newProduct}.");
+    public async Task<AddProductDto> AddProduct(AddProductDto dto)
+    {
+        _logger.LogInformation($"Added product {dto}.");
 
-        if (newProduct.ProductPrice <= 0)
-        {
-            serviceResponse.Success = false;
-            serviceResponse.Message = "The price cannot be 0.";
-            return serviceResponse;
-        }
+            var product = _mapper.Map<Product>(dto);
+            if (dto.ProductPrice <= 0)
+            {
+                throw new BadRequestException("Product price must be greater than 0.");
+            }
 
-        var product = new Product
-        {
-            ProductName = newProduct.ProductName,
-            ProductCategory = newProduct.ProductCategory,
-            ProductDescription = newProduct.ProductDescription,
-            ProductPrice = newProduct.ProductPrice,
-            IsAvailable = newProduct.IsAvailable
-        };
+            //var product = new Product
+            //{
+            //    ProductName = newProduct.ProductName,
+            //    ProductCategory = newProduct.ProductCategory,
+            //    ProductDescription = newProduct.ProductDescription,
+            //    ProductPrice = newProduct.ProductPrice,
+            //    IsAvailable = newProduct.IsAvailable
+            //};
 
-        await _dbContext.Products.AddAsync(product);
-        await _dbContext.SaveChangesAsync();
-        serviceResponse.Data = newProduct;
-        serviceResponse.Message = "Product added successfully.";
-        return serviceResponse;
-}
+            await _dbContext.Products.AddAsync(product);
+            await _dbContext.SaveChangesAsync();
+            return _mapper.Map<AddProductDto>(product);
+    }
 
     public async Task DeleteProduct(int id)
     {

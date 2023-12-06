@@ -21,7 +21,7 @@ public class PriceNegotiationService : IPriceNegotiationService
         _logger = logger;
     }
 
-    //an async version of the GetAllProducts method needs to be implemented for the MediatR handler (it will make the mathods async)
+    //an async version of the GetAllProducts method needs to be implemented for the MediatR handler (it will make the methods async)
     public List<GetProductDto> GetAllProducts()
     {
         var products =  _dbContext.Products.ToList();
@@ -29,23 +29,23 @@ public class PriceNegotiationService : IPriceNegotiationService
 
     }
 
-    public void AddPriceProposal(PriceProposalDto priceProposal, Product product) 
+    public void AddPriceProposal(PriceProposalDto priceProposal) 
     {
         var proposal =  _mapper.Map<PriceProposal>(priceProposal);
         _dbContext.PriceProposals.Add(proposal);
 
         if (proposal.Accepted == false & proposal.AttemptsLeft>=0)
         {
-            if (priceProposal.ProposedPrice1 == 2 * (product.ProductPrice))
+            if (priceProposal.ProposedPrice1 == 2 * (priceProposal.ProductPrice))
             {
                 throw new Exception("The proposed price is double the product price. The price proposal is rejected.");
                 _dbContext.PriceProposals.Remove(proposal);
             }
-            if (priceProposal.ProposedPrice1 > product.ProductPrice)
+            if (priceProposal.ProposedPrice1 > priceProposal.ProductPrice)
             {
                 _dbContext.SaveChanges();
             }
-            else if (priceProposal.ProposedPrice1 < product.ProductPrice)
+            else if (priceProposal.ProposedPrice1 < priceProposal.ProductPrice)
             {
                 throw new BadRequestException("The proposed price is lower than the product price.");
             }
@@ -54,7 +54,7 @@ public class PriceNegotiationService : IPriceNegotiationService
         {
             throw new Exception("The price proposal has already been accepted.");
         }
-        else if (proposal.AttemptsLeft < 0)
+        else if (proposal.AttemptsLeft <= 0)
         {
             throw new Exception("The price proposal on this item is unavailable.");
         }

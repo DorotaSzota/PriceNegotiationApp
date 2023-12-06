@@ -33,7 +33,7 @@ public class ProductCatalogueController : ControllerBase
     public async Task<ActionResult<GetProductDto>> AddProduct([FromBody]AddProductDto newProduct)
     {
         var serviceResponse = await _productCatalogueService.AddProduct(newProduct);
-        if (serviceResponse.Success)
+        if (ModelState.IsValid)
         {
             return Ok(serviceResponse);
         }

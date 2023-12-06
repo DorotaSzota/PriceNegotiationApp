@@ -7,7 +7,7 @@ public interface IProductCatalogueService
 {
     Task<List<GetProductDto>> GetAllProducts();
     Task<GetProductDto> GetProductById(int id);
-    Task<ServiceResponse<AddProductDto>> AddProduct(AddProductDto newProduct);
+    Task<AddProductDto> AddProduct(AddProductDto newProduct);
     Task DeleteProduct(int id);
   
 }
