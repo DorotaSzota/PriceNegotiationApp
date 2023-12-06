@@ -30,6 +30,12 @@ public class PriceNegotiationController : ControllerBase
         
     }
 
+    [HttpGet("GetAllPriceProposals")]
+    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
+    {
+        return Ok(await _mediator.Send(new GetPriceProposalListQuery()));
+    }   
+
 
 
 

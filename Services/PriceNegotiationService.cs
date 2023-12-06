@@ -55,4 +55,11 @@ public class PriceNegotiationService : IPriceNegotiationService
         return _mapper.Map<PriceProposalDto>(proposal);
     }
 
+    public List<GetPriceProposalDto> GetAllPriceProposals()
+    {
+        var proposals = _dbContext.PriceProposals.ToList();
+        var proposalsDto = _mapper.Map<List<GetPriceProposalDto>>(proposals);
+        return _mapper.Map<List<GetPriceProposalDto>>(proposals);
+    }   
+
 }

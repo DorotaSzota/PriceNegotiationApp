@@ -20,6 +20,12 @@ public class PriceNegotiationMappingProfile : Profile
         CreateMap<PriceProposalDto, PriceProposal>()
             .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.ProposedPrice))
             .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
+        CreateMap<GetPriceProposalDto, PriceProposal>();
+        CreateMap<PriceProposal, GetPriceProposalDto>();
+        CreateMap<GetPriceProposalDto, PriceProposal>()
+            .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.ProposedPrice))
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
+
 
 
     }
