@@ -20,5 +20,7 @@ Implementation Requirements:
 
 
 # To do:
-	- priceproposal and product mappers might need removal - check
+	- priceproposal and product mappers might need removal - check, rework the mappers
+	- add authentication (GetProductDto add price and that it can be accessed only by someone logged as admin)
+	- add unit tests
 	

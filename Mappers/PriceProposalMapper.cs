@@ -9,9 +9,7 @@ public class PriceProposalMapper
         return new PriceProposalDto
         {
             ProductId = product.Id,
-            ProposedPrice1 = priceProposal.ProposedPrice1,
-            ProposedPrice2 = priceProposal.ProposedPrice2,
-            ProposedPrice3 = priceProposal.ProposedPrice3, 
+            ProposedPrice = priceProposal.ProposedPrice,
             Accepted = priceProposal.Accepted,
             AttemptsLeft = priceProposal.AttemptsLeft,
             Message = priceProposal.Message

@@ -5,5 +5,5 @@ namespace PriceNegotiationApp.Services;
 public interface IPriceNegotiationService
 {
     List<GetProductDto> GetAllProducts();
-    void AddPriceProposal(PriceProposalDto priceProposal);
+    PriceProposalDto AddPriceProposal(PriceProposalDto priceProposal);
 }

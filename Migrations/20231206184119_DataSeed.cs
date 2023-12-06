@@ -5,7 +5,7 @@
 namespace PriceNegotiationApp.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class DataSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

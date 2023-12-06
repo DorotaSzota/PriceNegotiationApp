@@ -36,13 +36,10 @@ namespace PriceNegotiationApp.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ProposedPrice1")
-                        .HasColumnType("decimal(5,2)");
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("TEXT");
 
-                    b.Property<decimal>("ProposedPrice2")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal>("ProposedPrice3")
+                    b.Property<decimal>("ProposedPrice")
                         .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");

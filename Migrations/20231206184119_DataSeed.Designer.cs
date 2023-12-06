@@ -10,14 +10,45 @@ using PriceNegotiationApp.Data;
 namespace PriceNegotiationApp.Migrations
 {
     [DbContext(typeof(PriceNegotiationDbContext))]
-    [Migration("20231204190457_SeedData")]
-    partial class SeedData
+    [Migration("20231206184119_DataSeed")]
+    partial class DataSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+
+            modelBuilder.Entity("PriceNegotiationApp.Models.PriceProposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AttemptsLeft")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(160)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("ProposedPrice")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PriceProposals");
+                });
 
             modelBuilder.Entity("PriceNegotiationApp.Models.Product", b =>
                 {
