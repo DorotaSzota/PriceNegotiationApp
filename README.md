@@ -11,3 +11,7 @@ Implementation Requirements:
 • Database integration is optional; you can use an in-memory database or a dictionary in memory.
 • It is required to use a version control system such as GIT during project implementation.
 • Unit tests.
+
+
+# Things for further improvement
+	- Add date to negotiated prices

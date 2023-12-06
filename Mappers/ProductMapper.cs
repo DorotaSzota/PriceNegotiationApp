@@ -8,6 +8,7 @@ namespace PriceNegotiationApp.Mappers
         {
             return new GetProductDto
             {
+                Id = product.Id,
                 ProductName = product.ProductName,
                 ProductCategory = product.ProductCategory,
                 ProductDescription = product.ProductDescription,

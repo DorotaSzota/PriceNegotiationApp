@@ -16,11 +16,14 @@ public class PriceNegotiationController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<List<GetProductDto>>> Get()
+    [HttpGet("BrowseProducts")]
+    public async Task<ActionResult<List<GetProductDto>>> GetAll()
     {
         return Ok(await _mediator.Send(new GetProductListQuery()));
     }
+
+
+
 
     //[HttpPost]
     //public async Task<ActionResult> Post(AddProductDto addProductDto)
