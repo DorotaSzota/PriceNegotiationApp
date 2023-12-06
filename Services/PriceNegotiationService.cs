@@ -9,7 +9,7 @@ public class PriceNegotiationService : IPriceNegotiationService
 {
     
     private readonly PriceNegotiationDbContext _dbContext;
-    private readonly ILogger<ProductCatalogueService> _logger;
+    private readonly ILogger<ProductCatalogueService> _logger; //check if needed
 
     public PriceNegotiationService(PriceNegotiationDbContext dbContext, ILogger<ProductCatalogueService> logger)
     {
@@ -24,6 +24,6 @@ public class PriceNegotiationService : IPriceNegotiationService
         return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
 
     }
-    
+    public PriceProposalDto 
 
 }
