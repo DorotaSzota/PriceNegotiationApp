@@ -50,6 +50,8 @@ public class PriceNegotiationMappingProfile : Profile
         CreateMap<UpdateProposalStatusDto, ProductCategory>();
         CreateMap<UpdateProposalStatusDto, PriceProposal>();
         CreateMap<PriceProposal, UpdateProposalStatusDto>();
+        CreateMap<RegisterUserDto, User>().ReverseMap();
+        CreateMap<LoginDto, User>().ReverseMap();
 
 
     }

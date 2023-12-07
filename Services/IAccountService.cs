@@ -4,6 +4,7 @@ namespace PriceNegotiationApp.Services;
 
 public interface IAccountService
 {
-    void RegisterUser(RegisterUserDto registerUserDto);
-    string GenerateJwt(LoginDto dto);
+    Task RegisterUser(RegisterUserDto registerUserDto);
+    Task<string> Login(LoginDto dto);
+    string CreateToken(User user);
 }

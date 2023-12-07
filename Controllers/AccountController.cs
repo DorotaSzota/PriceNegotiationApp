@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
 
@@ -10,11 +11,13 @@ public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IAccountService _accountService;
+    private readonly IAuthenticationService _authenticationService;
 
     public AccountController(IMediator mediator, IAccountService accountService)
     {
         _mediator = mediator;
         _accountService = accountService;
+        
     }
     [HttpPost("register")]
     public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
@@ -23,9 +26,9 @@ public class AccountController : ControllerBase
         return Ok();
     }
     [HttpPost("login")]
-    public ActionResult Login([FromBody] LoginDto dto)
+    public async Task<ActionResult<string>> Login([FromBody] LoginDto dto)
     {
-        string token = _accountService.GenerateJwt(dto);
+        string token = await _accountService.Login(dto);
         return Ok(token);
     }
 }
