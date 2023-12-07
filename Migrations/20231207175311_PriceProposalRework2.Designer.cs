@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PriceNegotiationApp.Data;
 
@@ -10,9 +11,11 @@ using PriceNegotiationApp.Data;
 namespace PriceNegotiationApp.Migrations
 {
     [DbContext(typeof(PriceNegotiationDbContext))]
-    partial class PriceNegotiationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231207175311_PriceProposalRework2")]
+    partial class PriceProposalRework2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -49,12 +52,7 @@ namespace PriceNegotiationApp.Migrations
                     b.Property<decimal>("ProposedPrice")
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("PriceProposals");
                 });
@@ -136,17 +134,6 @@ namespace PriceNegotiationApp.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("PriceNegotiationApp.Models.PriceProposal", b =>
-                {
-                    b.HasOne("PriceNegotiationApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PriceNegotiationApp.Models.User", b =>

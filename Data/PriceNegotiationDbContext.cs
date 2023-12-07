@@ -8,7 +8,7 @@ public class PriceNegotiationDbContext : DbContext
     public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
     { }
 
-    //private readonly PriceNegotiationSeeder _seeder;
+    private readonly PriceNegotiationSeeder _seeder;
 
     //public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
     //{

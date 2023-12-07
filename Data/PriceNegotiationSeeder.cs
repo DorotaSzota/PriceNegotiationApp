@@ -67,7 +67,8 @@ public class PriceNegotiationSeeder
                 ProposedPrice = 1199.99m,
                 Accepted = false,
                 AttemptsLeft = 2,
-                Message = "The proposed price is higher than the product price."
+                Message = "The proposed price is higher than the product price.",
+                UserId  = 4
             },
             new PriceProposal()
             {
@@ -79,7 +80,8 @@ public class PriceNegotiationSeeder
                 ProposedPrice = 20000.00m,
                 Accepted = false,
                 AttemptsLeft = 1,
-                Message = "The proposed price is lower than the product price."
+                Message = "The proposed price is lower than the product price.",
+                UserId  = 4
             }
         };
     }

@@ -40,33 +40,40 @@ public class PriceNegotiationService : IPriceNegotiationService
     public void AddPriceProposal(PriceProposalDto priceProposal)
     {
         _logger.LogInformation($"Adding or updating price proposal {priceProposal}.");
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == priceProposal.ProductId)?? 
+                      throw new NotFoundException("Product not found.");
+        var howManyAttempts = _dbContext.PriceProposals.Count(p =>
+            p.ProductId == priceProposal.ProductId && p.UserId == priceProposal.UserId);
 
         var newProposal = new PriceProposal()
         {
             ProductId = priceProposal.ProductId,
+            ProductPrice = product.ProductPrice,
+            ProductName = product.ProductName,
+            ProductDescription = product.ProductDescription,
             ProposedPrice = priceProposal.ProposedPrice,
-            AttemptsLeft = 3,
-            Accepted = false
+            Accepted = false,
+            AttemptsLeft =3-howManyAttempts,
+            Message = string.Empty,
+            UserId=priceProposal.UserId
         };
-
-        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0)
+        
+        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft !<0)
         {
             newProposal.AttemptsLeft--;
             _dbContext.PriceProposals.Add(newProposal);
             _dbContext.SaveChanges();
+            return;
         }
-        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
+        if (!newProposal.Accepted && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
         {
-            throw new Exception(
+            throw new BadRequestException(
                 "The proposed price is more than twice the product price. The price proposal is rejected.");
         }
 
-        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice < newProposal.ProductPrice)
-        {
-            throw new BadRequestException("The proposed price is lower than the product price.");
-        }
-    }
+        throw new Exception("Bad request.");
 
+    }
 
     public List<GetPriceProposalDto> GetAllPriceProposals()
     {

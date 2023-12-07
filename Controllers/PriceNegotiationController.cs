@@ -32,15 +32,14 @@ public class PriceNegotiationController : ControllerBase
     [HttpPost("AddPriceProposal")]
     public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        return Ok(await _mediator.Send(new AddPriceProposalCommand(priceProposal)));
+        return await _mediator.Send(new AddPriceProposalCommand(priceProposal));
         
     }
 
     [HttpGet("GetAllPriceProposals")]
     public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
     {
+
         return Ok(await _mediator.Send(new GetPriceProposalListQuery()));
     }
 
