@@ -16,7 +16,6 @@ public class AddPriceProposalHandler : IRequestHandler<AddPriceProposalCommand, 
 
     public Task<PriceProposalDto> Handle(AddPriceProposalCommand request, CancellationToken cancellationToken)
     {
-        _priceNegotiationService.AddPriceProposal(request.PriceProposalDto);
         return Task.FromResult(_priceNegotiationService.AddPriceProposal(request.PriceProposalDto));
     }
 

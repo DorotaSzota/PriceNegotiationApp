@@ -1,3 +1,6 @@
-﻿namespace PriceNegotiationApp.Commands;
+﻿using MediatR;
+using PriceNegotiationApp.Models;
 
-public record UpdateProposalStatusCommand
+namespace PriceNegotiationApp.Commands;
+
+public record UpdateProposalStatusCommand(UpdateProposalStatusDto UpdateProposalStatusDto) : IRequest<UpdateProposalStatusDto>;

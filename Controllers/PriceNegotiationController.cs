@@ -23,6 +23,12 @@ public class PriceNegotiationController : ControllerBase
         return Ok(await _mediator.Send(new GetProductListQuery()));
     }
 
+    [HttpGet("GetPriceProposalById/{id}")]
+    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
+    {
+        return Ok(await _mediator.Send(new GetPriceProposalByIdQuery()));
+    }
+
     [HttpPost("AddPriceProposal")]
     public async Task<PriceProposalDto> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
     {
@@ -34,6 +40,13 @@ public class PriceNegotiationController : ControllerBase
     public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
     {
         return Ok(await _mediator.Send(new GetPriceProposalListQuery()));
+    }
+
+    [HttpPut("UpdatePriceProposal")]
+    public async Task<ActionResult> UpdatePriceProposal([FromBody] UpdateProposalStatusDto dto)
+    {
+        await _mediator.Send(new UpdateProposalStatusCommand(dto));
+        return NoContent();
     }   
 
 
