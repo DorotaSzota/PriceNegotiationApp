@@ -19,8 +19,11 @@ public class PriceNegotiationMappingProfile : Profile
         CreateMap<AddProductDto, Product>();
         CreateMap<PriceProposalDto, PriceProposal>()
             .ForMember(dest => dest.ProductPrice, opt => opt.MapFrom(src => src.ProposedPrice))
-            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId));
-           
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+            .ForMember(dest => dest.AttemptsLeft, opt => opt.MapFrom(src => src.AttemptsLeft))
+            .ForMember(dest => dest.Accepted, opt => opt.MapFrom(src => src.Accepted)).ReverseMap();
+
+
         CreateMap<GetPriceProposalDto, PriceProposal>();
         CreateMap<PriceProposal, GetPriceProposalDto>();
 

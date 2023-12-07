@@ -17,10 +17,13 @@ Implementation Requirements:
 	- Logs are optional in this project, might as well be opted out in ProductCatalogueService
 	- Add update endpoint in the product catalogue service
 	- Add date to negotiated prices
+	- Add MediatR to user validation logic	
+	- Add pswd Hasher
 
 
 # To do:
 	- REWORK ADDPRICEPROPOSAL AND UPDATESTATUS LOGIC!!!
+	- user .ReverseMap() in automapper
 	- add authentication (GetProductDto add price and that it can be accessed only by someone logged as admin)
 	- add unit tests
 	

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Exceptions;
@@ -36,33 +37,34 @@ public class PriceNegotiationService : IPriceNegotiationService
         return _mapper.Map<GetPriceProposalDto>(proposal);
     }
 
-    public async Task<PriceProposalDto> AddPriceProposal(PriceProposalDto priceProposal)
+    public void AddPriceProposal(PriceProposalDto priceProposal)
     {
-        _logger.LogInformation($"Added new price proposal {priceProposal}.");
+        _logger.LogInformation($"Adding or updating price proposal {priceProposal}.");
 
-        var proposal = _mapper.Map<PriceProposal>(priceProposal);
-        await _dbContext.PriceProposals.AddAsync(proposal);
-
-        if (proposal.Accepted == false && proposal.AttemptsLeft >= 0)
+        var newProposal = new PriceProposal()
         {
-            if(priceProposal.ProposedPrice > proposal.ProductPrice)
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            if (priceProposal.ProposedPrice == 2 * (proposal.ProductPrice))
-            {
-                _dbContext.PriceProposals.Remove(proposal);
-                throw new Exception("The proposed price is double the product price. The price proposal is rejected.");
-            }
-            if (priceProposal.ProposedPrice < proposal.ProductPrice)
-            {
-                throw new BadRequestException("The proposed price is lower than the product price.");
-            }
-            
-            proposal.AttemptsLeft--;
+            ProductId = priceProposal.ProductId,
+            ProposedPrice = priceProposal.ProposedPrice,
+            AttemptsLeft = 3,
+            Accepted = false
+        };
+
+        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0)
+        {
+            newProposal.AttemptsLeft--;
+            _dbContext.PriceProposals.Add(newProposal);
+            _dbContext.SaveChanges();
+        }
+        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
+        {
+            throw new Exception(
+                "The proposed price is more than twice the product price. The price proposal is rejected.");
         }
 
-        return _mapper.Map<PriceProposalDto>(proposal);
+        if (newProposal.Accepted == false && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice < newProposal.ProductPrice)
+        {
+            throw new BadRequestException("The proposed price is lower than the product price.");
+        }
     }
 
 

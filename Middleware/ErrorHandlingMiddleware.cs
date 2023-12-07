@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NLog;
 using Microsoft.Extensions.Logging;
 using PriceNegotiationApp.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace PriceNegotiationApp.Middleware;
 
@@ -19,6 +20,11 @@ public class ErrorHandlingMiddleware: IMiddleware
         try
         {
             await next.Invoke(context);
+        }
+        catch (BadRequestException badRequestException)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsync(badRequestException.Message);
         }
         catch (NotFoundException notFoundException)
         {

@@ -7,8 +7,15 @@ using PriceNegotiationApp.Services;
 using PriceNegotiationApp.Data;
 using Microsoft.AspNetCore.Builder;
 using System.Reflection.Metadata;
+using FluentValidation;
 using NLog.Web;
 using PriceNegotiationApp.Middleware;
+using PriceNegotiationApp.Models;
+using PriceNegotiationApp.Models.Validators;
+using Microsoft.IdentityModel.Tokens;
+using PriceNegotiationApp;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +26,28 @@ builder.Host.UseNLog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+var authenticationSettings = new AuthenticationSettings();
+builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "Bearer";
+    options.DefaultScheme = "Bearer";
+    options.DefaultChallengeScheme = "Bearer";
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidIssuer = authenticationSettings.JwtIssuer,
+        ValidAudience = authenticationSettings.JwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey))
+    };
+});
+
 builder.Services.AddDbContext<PriceNegotiationDbContext>(options =>
        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<PriceNegotiationSeeder>(sp =>
@@ -30,6 +59,9 @@ builder.Services.AddScoped<PriceNegotiationSeeder>(sp =>
 builder.Services.AddScoped<IProductCatalogueService, ProductCatalogueService>();
 builder.Services.AddScoped<IPriceNegotiationService, PriceNegotiationService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(option =>
@@ -53,6 +85,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("FrontEndClient");
 app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
