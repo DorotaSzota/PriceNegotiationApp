@@ -21,7 +21,7 @@ Implementation Requirements:
 
 # To do:
 	- priceproposal and product mappers might need removal - check, rework the mappers
-	- add getproposals by ID
+	-REWORK ADDPRICEPROPOSAL AND UPDATE LOGIC!!!
 	- add authentication (GetProductDto add price and that it can be accessed only by someone logged as admin)
 	- add unit tests
 	

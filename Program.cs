@@ -32,6 +32,15 @@ builder.Services.AddScoped<IPriceNegotiationService, PriceNegotiationService>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("FrontEndClient", cfg =>
+    {
+        cfg.AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowAnyOrigin(); //TODO: change to specific origin (WithOrigins()) when deploying and add the origin to the appsettings.json
+    });
+});
 
 var app = builder.Build();
 
@@ -42,7 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("FrontEndClient");
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();

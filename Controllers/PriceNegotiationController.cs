@@ -26,7 +26,7 @@ public class PriceNegotiationController : ControllerBase
     [HttpGet("GetPriceProposalById/{id}")]
     public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
     {
-        return Ok(await _mediator.Send(new GetPriceProposalByIdQuery()));
+        return Ok(await _mediator.Send(new GetPriceProposalByIdQuery(id)));
     }
 
     [HttpPost("AddPriceProposal")]

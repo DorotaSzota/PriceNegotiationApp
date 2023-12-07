@@ -24,9 +24,9 @@ public class PriceNegotiationService : IPriceNegotiationService
     //an async version of the GetAllProducts method needs to be implemented for the MediatR handler (it will make the methods async)
     public List<GetProductDto> GetAllProducts()
     {
+        _mapper.Map<List<GetProductDto>>(_dbContext.Products.ToList());
         var products =  _dbContext.Products.ToList();
-        return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
-
+        return _mapper.Map<List<GetProductDto>>(products);
     }
     public GetPriceProposalDto GetPriceProposalById(int id){
         var proposal = _dbContext.PriceProposals.Find(id);

@@ -22,18 +22,20 @@ public class ProductCatalogueService : IProductCatalogueService
     
     public async Task<List<GetProductDto>> GetAllProducts()
     {
+        _mapper.Map<List<GetProductDto>>(await _dbContext.Products.ToListAsync());
         var products = await _dbContext.Products.ToListAsync();
-        return products.Select(ProductMapper.MapProductToGetProductDto).ToList();
+        return _mapper.Map<List<GetProductDto>>(products);
     }
 
     public async Task<GetProductDto> GetProductById(int id)
     {
+        _mapper.Map<GetProductDto>(await _dbContext.Products.FindAsync(id));
         var product = await _dbContext.Products.FindAsync(id);
         if (product is null)
         {
             throw new NotFoundException("Product id not found.");
         }
-        return ProductMapper.MapProductToGetProductDto(product);
+        return _mapper.Map<GetProductDto>(product);
     }
 
     public async Task<AddProductDto> AddProduct(AddProductDto dto)
