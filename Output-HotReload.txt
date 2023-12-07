@@ -1,0 +1,12 @@
+﻿09:57 59.27 PriceNegotiationApp (Web server): Hot reload session started
+10:02 42.51 PriceNegotiationApp (Web server): Hot reload session complete
+12:03 11.15 PriceNegotiationApp (Web server): Hot reload session started
+12:04 32.09 PriceNegotiationApp (Web server): Sending updates to running application
+12:04 32.10 Changes were successfully applied.
+12:04 32.68 PriceNegotiationApp (Web server): Updates applied successfully
+12:04 32.68 PriceNegotiationApp: Refreshing web browser
+12:04 55.27 PriceNegotiationApp (Web server): Hot reload session complete
+12:05 28.87 PriceNegotiationApp (Web server): Hot reload session started
+12:08 59.94 [Error] C:\Users\Pyza\Desktop\PriceNegotiationApp\obj\Debug\net8.0\PriceNegotiationApp.AssemblyInfo.cs (line 17): error ENC0003: Updating 'attribute' requires restarting the application.
+12:08 59.94 Changes could not be applied. Restarting the application is required.
+12:09 02.86 PriceNegotiationApp (Web server): Hot reload session complete

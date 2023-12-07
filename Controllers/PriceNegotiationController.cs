@@ -30,9 +30,9 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpPost("AddPriceProposal")]
-    public async Task<PriceProposalDto> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
+    public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
     {
-        return await _mediator.Send(new AddPriceProposalCommand(priceProposal));
+        return Ok(await _mediator.Send(new AddPriceProposalCommand(priceProposal)));
         
     }
 

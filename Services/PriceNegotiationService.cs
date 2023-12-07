@@ -21,7 +21,6 @@ public class PriceNegotiationService : IPriceNegotiationService
         _logger = logger;
     }
 
-    //an async version of the GetAllProducts method needs to be implemented for the MediatR handler (it will make the methods async)
     public List<GetProductDto> GetAllProducts()
     {
         _mapper.Map<List<GetProductDto>>(_dbContext.Products.ToList());
@@ -37,14 +36,19 @@ public class PriceNegotiationService : IPriceNegotiationService
         return _mapper.Map<GetPriceProposalDto>(proposal);
     }
 
-    public PriceProposalDto AddPriceProposal(PriceProposalDto priceProposal) 
+    public async Task<PriceProposalDto> AddPriceProposal(PriceProposalDto priceProposal)
     {
         _logger.LogInformation($"Added new price proposal {priceProposal}.");
-        var proposal =  _mapper.Map<PriceProposal>(priceProposal);
-        _dbContext.PriceProposals.Add(proposal);
 
-        if (proposal.Accepted == false && proposal.AttemptsLeft>=0)
+        var proposal = _mapper.Map<PriceProposal>(priceProposal);
+        await _dbContext.PriceProposals.AddAsync(proposal);
+
+        if (proposal.Accepted == false && proposal.AttemptsLeft >= 0)
         {
+            if(priceProposal.ProposedPrice > proposal.ProductPrice)
+            {
+                await _dbContext.SaveChangesAsync();
+            }
             if (priceProposal.ProposedPrice == 2 * (proposal.ProductPrice))
             {
                 _dbContext.PriceProposals.Remove(proposal);
@@ -54,15 +58,13 @@ public class PriceNegotiationService : IPriceNegotiationService
             {
                 throw new BadRequestException("The proposed price is lower than the product price.");
             }
-            if (priceProposal.ProposedPrice > proposal.ProductPrice)
-            {
-                _dbContext.SaveChanges();
-            }
+            
             proposal.AttemptsLeft--;
         }
-        
+
         return _mapper.Map<PriceProposalDto>(proposal);
     }
+
 
     public List<GetPriceProposalDto> GetAllPriceProposals()
     {
