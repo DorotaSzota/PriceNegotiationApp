@@ -58,7 +58,7 @@ public class PriceNegotiationService : IPriceNegotiationService
             UserId=priceProposal.UserId
         };
         
-        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft !<0)
+        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft !<0) 
         {
             newProposal.AttemptsLeft--;
             _dbContext.PriceProposals.Add(newProposal);
@@ -85,21 +85,24 @@ public class PriceNegotiationService : IPriceNegotiationService
     public void UpdateProposalStatus(UpdateProposalStatusDto dto)
     {
         _logger.LogInformation($"Updated price proposal status {dto}.");
+
         var proposal = _dbContext.PriceProposals.Find(dto.Id);
         if (proposal is null)
         {
             throw new NotFoundException("Proposal id not found.");
         }
 
-        if (dto.Accepted == true)
+        if (dto.Accepted)
         {
             proposal.Accepted = true;
+            proposal.Message = dto.Message;
             _dbContext.SaveChanges();
         }
 
-        if (dto.Accepted == false)
+        if (!dto.Accepted)
         {
             proposal.Accepted = false;
+            proposal.Message = dto.Message;
             _dbContext.SaveChanges();
         }
     }

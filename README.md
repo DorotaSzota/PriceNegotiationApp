@@ -13,17 +13,20 @@ Implementation Requirements:
 • Unit tests.
 
 
-# Things for further improvement
-	- Logs are optional in this project, might as well be opted out in ProductCatalogueService
-	- Add update endpoint in the product catalogue service
-	- Add date to negotiated prices
+# Things for future improvements
+
+	- Add update endpoint in the ProductCatalogueService
+	- Add Authorization
 	- Add MediatR to user validation logic	
-	- Add pswd Hasher
+	- Make PriceNegotiationMappingProfile a bit more tidy :)
+	- Logs are optional in this project, might as well be opted out in Services and Program.cs
+
+
+# Additional notes
+
+	- I used the MediatR library only in the PriceNegotiation API, because I wanted to show how I would use it in a real world scenario.
 
 
 # To do:
-	- REWORK ADDPRICEPROPOSAL AND UPDATESTATUS LOGIC!!!
-	- user .ReverseMap() in automapper
-	- add authentication (GetProductDto add price and that it can be accessed only by someone logged as admin)
 	- add unit tests
 	
