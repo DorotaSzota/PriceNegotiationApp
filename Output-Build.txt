@@ -1,6 +1,0 @@
-﻿Build started at 10:56...
-1>------ Build started: Project: PriceNegotiationApp.Tests, Configuration: Debug Any CPU ------
-1>Skipping analyzers to speed up the build. You can execute 'Build' or 'Rebuild' command to run analyzers.
-1>PriceNegotiationApp.Tests -> C:\Users\Pyza\Desktop\PriceNegotiationApp.Tests\bin\Debug\net8.0\PriceNegotiationApp.Tests.dll
-========== Build: 1 succeeded, 0 failed, 1 up-to-date, 0 skipped ==========
-========== Build completed at 10:56 and took 00,856 seconds ==========
