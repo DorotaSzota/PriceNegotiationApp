@@ -1,27 +1,6 @@
-﻿Build started at 10:50...
-1>------ Build started: Project: PriceNegotiationApp, Configuration: Debug Any CPU ------
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\Product.cs(6,19,6,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\Product.cs(8,19,8,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\UpdateProposalStatusDto.cs(8,19,8,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\UpdateProposalStatusDto.cs(9,19,9,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\PriceProposal.cs(8,19,8,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\PriceProposal.cs(9,19,9,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\PriceProposalDto.cs(9,19,9,26): warning CS8618: Non-nullable property 'Message' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\GetProductDto.cs(6,19,6,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\GetProductDto.cs(8,19,8,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\GetPriceProposalDto.cs(8,19,8,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\GetPriceProposalDto.cs(9,19,9,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\AddProductDto.cs(8,19,8,30): warning CS8618: Non-nullable property 'ProductName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Models\AddProductDto.cs(12,19,12,37): warning CS8618: Non-nullable property 'ProductDescription' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\User.cs(8,19,8,28): warning CS8618: Non-nullable property 'FirstName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\User.cs(9,19,9,27): warning CS8618: Non-nullable property 'LastName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\User.cs(10,19,10,24): warning CS8618: Non-nullable property 'Email' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\User.cs(11,19,11,27): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\User.cs(14,25,14,29): warning CS8618: Non-nullable property 'Role' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Entities\Role.cs(6,19,6,27): warning CS8618: Non-nullable property 'RoleName' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Middleware\ErrorHandlingMiddleware.cs(23,34,23,51): warning CS0168: The variable 'notFoundException' is declared but never used
-1>C:\Users\Pyza\Desktop\PriceNegotiationApp\Services\ProductCatalogueService.cs(59,13,59,44): warning CS0472: The result of the expression is always 'false' since a value of type 'ProductCategory' is never equal to 'null' of type 'ProductCategory?'
-1>PriceNegotiationApp -> C:\Users\Pyza\Desktop\PriceNegotiationApp\bin\Debug\net8.0\PriceNegotiationApp.dll
-1>Done building project "PriceNegotiationApp.csproj".
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-========== Build completed at 10:50 and took 06,700 seconds ==========
+﻿Build started at 10:56...
+1>------ Build started: Project: PriceNegotiationApp.Tests, Configuration: Debug Any CPU ------
+1>Skipping analyzers to speed up the build. You can execute 'Build' or 'Rebuild' command to run analyzers.
+1>PriceNegotiationApp.Tests -> C:\Users\Pyza\Desktop\PriceNegotiationApp.Tests\bin\Debug\net8.0\PriceNegotiationApp.Tests.dll
+========== Build: 1 succeeded, 0 failed, 1 up-to-date, 0 skipped ==========
+========== Build completed at 10:56 and took 00,856 seconds ==========
