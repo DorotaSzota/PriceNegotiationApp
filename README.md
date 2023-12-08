@@ -30,5 +30,6 @@ Implementation Requirements:
 			- PriceNegotiationService
 			- Queries/Commands
 			- Handlers
+   	- Unit tests are located in the .zip file in the main directory
 
 	
