@@ -25,8 +25,10 @@ Implementation Requirements:
 # Additional notes
 
 	- I used the MediatR library only in the PriceNegotiation API, because I wanted to show how I would use it in a real world scenario.
+		- MediatR pipeline components: 
+			- PriceNegotiationController
+			- PriceNegotiationService
+			- Queries/Commands
+			- Handlers
 
-
-# To do:
-	- add unit tests
 	

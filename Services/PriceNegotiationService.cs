@@ -53,25 +53,25 @@ public class PriceNegotiationService : IPriceNegotiationService
             ProductDescription = product.ProductDescription,
             ProposedPrice = priceProposal.ProposedPrice,
             Accepted = false,
-            AttemptsLeft =3-howManyAttempts,
+            AttemptsLeft =2-howManyAttempts,
             Message = string.Empty,
             UserId=priceProposal.UserId
         };
-        
-        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft !<0) 
-        {
-            newProposal.AttemptsLeft--;
-            _dbContext.PriceProposals.Add(newProposal);
-            _dbContext.SaveChanges();
-            return;
-        }
         if (!newProposal.Accepted && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
         {
             throw new BadRequestException(
                 "The proposed price is more than twice the product price. The price proposal is rejected.");
         }
 
-        throw new Exception("Bad request.");
+        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft >=0) 
+        {
+            newProposal.AttemptsLeft--;
+            _dbContext.PriceProposals.Add(newProposal);
+            _dbContext.SaveChanges();
+            return;
+        }
+        
+        throw new Exception("Something wend wrong.");
 
     }
 
