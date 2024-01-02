@@ -1,8 +1,9 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PriceNegotiationApp.Commands;
+using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Queries;
+using PriceNegotiationApp.Services;
 
 namespace PriceNegotiationApp.Controllers;
 
@@ -10,23 +11,26 @@ namespace PriceNegotiationApp.Controllers;
 [Route("[controller]")]
 public class PriceNegotiationController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IPriceNegotiationService _priceNegotiationService;
+    private readonly PriceNegotiationDbContext _dbContext;
 
-    public PriceNegotiationController(IMediator mediator)
+    public PriceNegotiationController(IPriceNegotiationService priceNegotiationService, PriceNegotiationDbContext dbContext)
     {
-        _mediator = mediator;
+        _priceNegotiationService = priceNegotiationService;
+        _dbContext = dbContext;
     }
 
     [HttpGet("BrowseProducts")]
-    public async Task<ActionResult<List<GetProductDto>>> GetAll()
+    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts()
     {
-        return Ok(await _mediator.Send(new GetProductListQuery()));
+        var serviceResponse = await _priceNegotiationService.GetAllProducts();
+        return Ok(serviceResponse);
     }
 
     [HttpGet("GetPriceProposalById/{id}")]
     public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
     {
-        return Ok(await _mediator.Send(new GetPriceProposalByIdQuery(id)));
+        var 
     }
 
     [HttpPost("AddPriceProposal")]

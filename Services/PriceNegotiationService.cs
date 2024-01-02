@@ -22,10 +22,10 @@ public class PriceNegotiationService : IPriceNegotiationService
         _logger = logger;
     }
 
-    public List<GetProductDto> GetAllProducts()
+    public async Task<List<GetProductDto>> GetAllProducts()
     {
         _mapper.Map<List<GetProductDto>>(_dbContext.Products.ToList());
-        var products =  _dbContext.Products.ToList();
+        var products = await _dbContext.Products.ToListAsync();
         return _mapper.Map<List<GetProductDto>>(products);
     }
     public GetPriceProposalDto GetPriceProposalById(int id){
