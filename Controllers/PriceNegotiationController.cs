@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using PriceNegotiationApp.Commands;
+﻿using Microsoft.AspNetCore.Mvc;
+using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Models;
-using PriceNegotiationApp.Queries;
+using PriceNegotiationApp.Services;
 
 namespace PriceNegotiationApp.Controllers;
 
@@ -10,29 +9,33 @@ namespace PriceNegotiationApp.Controllers;
 [Route("[controller]")]
 public class PriceNegotiationController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IPriceNegotiationService _priceNegotiationService;
 
-    public PriceNegotiationController(IMediator mediator)
+
+    public PriceNegotiationController(IPriceNegotiationService priceNegotiationService)
     {
-        _mediator = mediator;
+        _priceNegotiationService = priceNegotiationService;
     }
 
     [HttpGet("BrowseProducts")]
-    public async Task<ActionResult<List<GetProductDto>>> GetAll()
+    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts()
     {
-        return Ok(await _mediator.Send(new GetProductListQuery()));
+        var serviceResponse = await _priceNegotiationService.GetAllProducts();
+        return Ok(serviceResponse);
     }
 
     [HttpGet("GetPriceProposalById/{id}")]
     public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
     {
-        return Ok(await _mediator.Send(new GetPriceProposalByIdQuery(id)));
+        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id);
+        return Ok(serviceResponse);
     }
 
     [HttpPost("AddPriceProposal")]
     public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
     {
-        return await _mediator.Send(new AddPriceProposalCommand(priceProposal));
+       var serviceResponse = await _priceNegotiationService.AddPriceProposal(priceProposal);
+       return Ok(serviceResponse);
         
     }
 
@@ -40,13 +43,14 @@ public class PriceNegotiationController : ControllerBase
     public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
     {
 
-        return Ok(await _mediator.Send(new GetPriceProposalListQuery()));
+        var serviceResponse = await _priceNegotiationService.GetAllPriceProposals();
+        return Ok(serviceResponse);
     }
 
     [HttpPut("UpdatePriceProposal")]
     public async Task<ActionResult> UpdatePriceProposal([FromBody] UpdateProposalStatusDto dto)
     {
-        await _mediator.Send(new UpdateProposalStatusCommand(dto));
+        await _priceNegotiationService.UpdateProposalStatus(dto);
         return NoContent();
     }   
 
