@@ -28,8 +28,8 @@ public class PriceNegotiationService : IPriceNegotiationService
         var products = await _dbContext.Products.ToListAsync();
         return _mapper.Map<List<GetProductDto>>(products);
     }
-    public GetPriceProposalDto GetPriceProposalById(int id){
-        var proposal = _dbContext.PriceProposals.Find(id);
+    public async Task<GetPriceProposalDto> GetPriceProposalById(int id){
+        var proposal = await _dbContext.PriceProposals.FindAsync(id);
         if (proposal is null)
         {
             throw new NotFoundException("Proposal id not found.");
@@ -37,11 +37,13 @@ public class PriceNegotiationService : IPriceNegotiationService
         return _mapper.Map<GetPriceProposalDto>(proposal);
     }
 
-    public void AddPriceProposal(PriceProposalDto priceProposal)
+    public async Task<PriceProposalDto> AddPriceProposal(PriceProposalDto priceProposal)
     {
         _logger.LogInformation($"Adding or updating price proposal {priceProposal}.");
-        var product = _dbContext.Products.FirstOrDefault(p => p.Id == priceProposal.ProductId)?? 
+
+        var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == priceProposal.ProductId)?? 
                       throw new NotFoundException("Product not found.");
+
         var howManyAttempts = _dbContext.PriceProposals.Count(p =>
             p.ProductId == priceProposal.ProductId && p.UserId == priceProposal.UserId);
 
@@ -66,45 +68,48 @@ public class PriceNegotiationService : IPriceNegotiationService
         if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft >=0) 
         {
             newProposal.AttemptsLeft--;
-            _dbContext.PriceProposals.Add(newProposal);
-            _dbContext.SaveChanges();
-            return;
+            await _dbContext.PriceProposals.AddAsync(newProposal);
+            await _dbContext.SaveChangesAsync();
         }
-        
-        throw new Exception("Something wend wrong.");
 
+        return _mapper.Map<PriceProposalDto>(newProposal);
     }
 
-    public List<GetPriceProposalDto> GetAllPriceProposals()
+    public async Task<List<GetPriceProposalDto>> GetAllPriceProposals()
     {
-        var proposals = _dbContext.PriceProposals.ToList();
+        var proposals = await _dbContext.PriceProposals.ToListAsync();
         var proposalsDto = _mapper.Map<List<GetPriceProposalDto>>(proposals);
         return _mapper.Map<List<GetPriceProposalDto>>(proposals);
     }
 
-    public void UpdateProposalStatus(UpdateProposalStatusDto dto)
+    public async Task UpdateProposalStatus(UpdateProposalStatusDto dto)
     {
         _logger.LogInformation($"Updated price proposal status {dto}.");
 
-        var proposal = _dbContext.PriceProposals.Find(dto.Id);
+        var proposal = await _dbContext.PriceProposals.FindAsync(dto.Id);
         if (proposal is null)
         {
             throw new NotFoundException("Proposal id not found.");
         }
 
-        if (dto.Accepted)
+        /*if (dto.Accepted)
         {
             proposal.Accepted = true;
             proposal.Message = dto.Message;
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
         }
 
         if (!dto.Accepted)
         {
             proposal.Accepted = false;
             proposal.Message = dto.Message;
-            _dbContext.SaveChanges();
-        }
+            _dbContext.SaveChangesAsync();
+        }*/
+
+        proposal.Accepted = dto.Accepted;
+        proposal.Message = dto.Message;
+
+        await _dbContext.SaveChangesAsync();
     }
 
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PriceNegotiationApp.Commands;
 using PriceNegotiationApp.Data;
 using PriceNegotiationApp.Models;
-using PriceNegotiationApp.Queries;
 using PriceNegotiationApp.Services;
 
 namespace PriceNegotiationApp.Controllers;
@@ -12,12 +10,11 @@ namespace PriceNegotiationApp.Controllers;
 public class PriceNegotiationController : ControllerBase
 {
     private readonly IPriceNegotiationService _priceNegotiationService;
-    private readonly PriceNegotiationDbContext _dbContext;
 
-    public PriceNegotiationController(IPriceNegotiationService priceNegotiationService, PriceNegotiationDbContext dbContext)
+
+    public PriceNegotiationController(IPriceNegotiationService priceNegotiationService)
     {
         _priceNegotiationService = priceNegotiationService;
-        _dbContext = dbContext;
     }
 
     [HttpGet("BrowseProducts")]
@@ -30,13 +27,15 @@ public class PriceNegotiationController : ControllerBase
     [HttpGet("GetPriceProposalById/{id}")]
     public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
     {
-        var 
+        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id);
+        return Ok(serviceResponse);
     }
 
     [HttpPost("AddPriceProposal")]
     public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
     {
-        return await _mediator.Send(new AddPriceProposalCommand(priceProposal));
+       var serviceResponse = await _priceNegotiationService.AddPriceProposal(priceProposal);
+       return Ok(serviceResponse);
         
     }
 
@@ -44,13 +43,14 @@ public class PriceNegotiationController : ControllerBase
     public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
     {
 
-        return Ok(await _mediator.Send(new GetPriceProposalListQuery()));
+        var serviceResponse = await _priceNegotiationService.GetAllPriceProposals();
+        return Ok(serviceResponse);
     }
 
     [HttpPut("UpdatePriceProposal")]
     public async Task<ActionResult> UpdatePriceProposal([FromBody] UpdateProposalStatusDto dto)
     {
-        await _mediator.Send(new UpdateProposalStatusCommand(dto));
+        await _priceNegotiationService.UpdateProposalStatus(dto);
         return NoContent();
     }   
 

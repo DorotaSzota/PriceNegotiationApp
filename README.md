@@ -17,19 +17,9 @@ Implementation Requirements:
 
 	- Add update endpoint in the ProductCatalogueService
 	- Add Authorization
-	- Add MediatR to user validation logic	
 	- Make PriceNegotiationMappingProfile a bit more tidy :)
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
 
 
-# Additional notes
-
-	- I used the MediatR library only in the PriceNegotiation API, because I wanted to show how I would use it in a real world scenario.
-		- MediatR pipeline components: 
-			- PriceNegotiationController
-			- PriceNegotiationService
-			- Queries/Commands
-			- Handlers
-   	- Unit tests are located in the .zip file in the main directory
 
 	
