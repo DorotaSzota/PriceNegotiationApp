@@ -17,7 +17,7 @@ Implementation Requirements:
 
 	- Add update endpoint in the ProductCatalogueService
 	- Add Authorization
-	- Make PriceNegotiationMappingProfile a bit more tidy :)
+	
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
 
 

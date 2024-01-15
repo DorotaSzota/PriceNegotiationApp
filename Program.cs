@@ -1,19 +1,15 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Http;
-using System.Reflection;
 using PriceNegotiationApp.Services;
 using PriceNegotiationApp.Data;
-using Microsoft.AspNetCore.Builder;
-using System.Reflection.Metadata;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using NLog.Web;
 using PriceNegotiationApp.Middleware;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Models.Validators;
 using Microsoft.IdentityModel.Tokens;
-using PriceNegotiationApp;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -25,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Host.UseNLog();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
 
