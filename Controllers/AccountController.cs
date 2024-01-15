@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿
 using Microsoft.AspNetCore.Authentication;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
@@ -9,13 +9,11 @@ namespace PriceNegotiationApp.Controllers;
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly IAccountService _accountService;
     private readonly IAuthenticationService _authenticationService;
 
-    public AccountController(IMediator mediator, IAccountService accountService)
+    public AccountController( IAccountService accountService)
     {
-        _mediator = mediator;
         _accountService = accountService;
         
     }
