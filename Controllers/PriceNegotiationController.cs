@@ -6,7 +6,7 @@ namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "Admin, User")]
+[Authorize]
 public class PriceNegotiationController : ControllerBase
 {
     private readonly IPriceNegotiationService _priceNegotiationService;
@@ -23,32 +23,33 @@ public class PriceNegotiationController : ControllerBase
         var serviceResponse = await _priceNegotiationService.GetAllProducts();
         return Ok(serviceResponse);
     }
-
-    [HttpGet("GetPriceProposalById/{id}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
-    {
-        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id);
-        return Ok(serviceResponse);
-    }
-
     [HttpPost("AddPriceProposal")]
-    public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromBody] PriceProposalDto priceProposal)
+    public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromQuery] PriceProposalDto priceProposal)
     {
-       var serviceResponse = await _priceNegotiationService.AddPriceProposal(priceProposal);
-       return Ok(serviceResponse);
-        
+        var serviceResponse = await _priceNegotiationService.AddPriceProposal(priceProposal);
+        return Ok(serviceResponse);
+
     }
 
-    [HttpGet("GetAllPriceProposals")]
+    [HttpGet("GetAllPriceProposalsAdmin")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
+    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposalsAdmin()
     {
 
-        var serviceResponse = await _priceNegotiationService.GetAllPriceProposals();
+        var serviceResponse = await _priceNegotiationService.GetAllPriceProposalsAdmin();
         return Ok(serviceResponse);
     }
-    
+
+    [HttpGet("GetPriceProposalByIdAdmin/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalByIdAdmin(int id)
+    {
+        var serviceResponse = await _priceNegotiationService.GetPriceProposalByIdAdmin(id);
+        return Ok(serviceResponse);
+    }
+
+ 
+
     [HttpPut("UpdatePriceProposal")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> UpdatePriceProposal([FromBody] UpdateProposalStatusDto dto)

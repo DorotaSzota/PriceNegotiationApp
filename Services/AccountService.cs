@@ -9,7 +9,14 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace PriceNegotiationApp.Services;
+namespace PriceNegotiationApp.Services{
+
+public interface IAccountService
+{
+    Task RegisterUser(RegisterUserDto registerUserDto);
+    Task<string> Login(LoginDto loginDto);
+    string GenerateJwt(LoginDto dto);
+}
 
 public class AccountService : IAccountService
 {
@@ -17,7 +24,8 @@ public class AccountService : IAccountService
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly AuthenticationSettings _authenticationSettings;
 
-    public AccountService(PriceNegotiationDbContext dbContext, IPasswordHasher<User> passwordHasher, AuthenticationSettings authenticationSettings)
+    public AccountService(PriceNegotiationDbContext dbContext, IPasswordHasher<User> passwordHasher,
+        AuthenticationSettings authenticationSettings)
     {
         _dbContext = dbContext;
         _passwordHasher = passwordHasher;
@@ -70,6 +78,7 @@ public class AccountService : IAccountService
         {
             throw new BadRequestException("Invalid email address or password");
         }
+
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -83,14 +92,14 @@ public class AccountService : IAccountService
         var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
 
         var token = new JwtSecurityToken(
-                       _authenticationSettings.JwtIssuer,
-                                  _authenticationSettings.JwtIssuer,
-                                  claims,
-                                  expires: expires,
-                                  signingCredentials: credentials
-                              );
+            _authenticationSettings.JwtIssuer,
+            _authenticationSettings.JwtIssuer,
+            claims,
+            expires: expires,
+            signingCredentials: credentials
+        );
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
     }
-
+}
 }

@@ -39,6 +39,13 @@ public class ProductCatalogueController : ControllerBase
             return Ok(serviceResponse);
     }
 
+    [HttpPut("UpdateProduct/{id}")]
+    public async Task<ActionResult> UpdateProduct([FromRoute] int id, [FromBody] UpdateProductDto updatedProduct)
+    {
+        await _productCatalogueService.UpdateProduct(id, updatedProduct);
+        return NoContent();
+    }
+
     [HttpDelete("DeleteProduct/{id}")]
     public async Task<ActionResult> DeleteProduct([FromRoute]int id)
     {

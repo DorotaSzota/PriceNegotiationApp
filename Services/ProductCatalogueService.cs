@@ -5,9 +5,19 @@ using PriceNegotiationApp.Exceptions;
 using PriceNegotiationApp.Mappers;
 using PriceNegotiationApp.Models;
 
-namespace PriceNegotiationApp.Services;
+namespace PriceNegotiationApp.Services
+{
+    public interface IProductCatalogueService
+    {
+        Task<List<GetProductDto>> GetAllProducts();
+        Task<GetProductDto> GetProductById(int id);
+        Task<AddProductDto> AddProduct(AddProductDto newProduct);
+        Task UpdateProduct(int id, UpdateProductDto updatedProduct);
+        Task DeleteProduct(int id);
 
-public class ProductCatalogueService : IProductCatalogueService
+    }
+
+    public class ProductCatalogueService : IProductCatalogueService
 {
     private readonly IMapper _mapper;
     private readonly PriceNegotiationDbContext _dbContext;
@@ -63,6 +73,23 @@ public class ProductCatalogueService : IProductCatalogueService
         return _mapper.Map<AddProductDto>(product);
     }
 
+    public async Task UpdateProduct(int id, UpdateProductDto dto)
+    {
+        _logger.LogInformation($"Updated product with id: {id}.");
+
+        var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+        if (product is null)
+        {
+            throw new NotFoundException("Product id not found.");
+        }
+        product.ProductName = dto.ProductName;
+        product.ProductDescription = dto.ProductDescription;
+        product.ProductPrice = dto.ProductPrice;
+        product.ProductCategory = dto.ProductCategory;
+        product.IsAvailable = dto.IsAvailable;
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task DeleteProduct(int id)
     {
         _logger.LogInformation($"Deleted product with id: {id}.");
@@ -74,5 +101,6 @@ public class ProductCatalogueService : IProductCatalogueService
             }
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
+    }
     }
 }

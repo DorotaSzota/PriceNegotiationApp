@@ -1,6 +1,6 @@
 ﻿namespace PriceNegotiationApp.Models;
 
-public class GetProductDto
+public class UpdateProductDto
 {
     public int Id { get; set; }
     public string ProductName { get; set; }
@@ -8,5 +8,4 @@ public class GetProductDto
     public string ProductDescription { get; set; }
     public decimal ProductPrice { get; set; }
     public bool IsAvailable { get; set; } = true;
-
 }

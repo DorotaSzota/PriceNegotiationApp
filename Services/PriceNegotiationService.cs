@@ -6,16 +6,27 @@ using PriceNegotiationApp.Exceptions;
 using PriceNegotiationApp.Mappers;
 using PriceNegotiationApp.Models;
 
-namespace PriceNegotiationApp.Services;
+namespace PriceNegotiationApp.Services
+{
+public interface IPriceNegotiationService
+{
+    Task<List<GetProductDto>> GetAllProducts();
+    Task<List<GetPriceProposalDto>> GetAllPriceProposalsAdmin();
+    Task<GetPriceProposalDto> GetPriceProposalByIdAdmin(int id);
+    Task<PriceProposalDto> AddPriceProposal(PriceProposalDto priceProposal);
+    Task UpdateProposalStatus(UpdateProposalStatusDto dto);
+
+}
 
 public class PriceNegotiationService : IPriceNegotiationService
 {
-    
+
     private readonly IMapper _mapper;
     private readonly PriceNegotiationDbContext _dbContext;
     private readonly ILogger<PriceNegotiationService> _logger;
 
-    public PriceNegotiationService(IMapper mapper, PriceNegotiationDbContext dbContext, ILogger<PriceNegotiationService> logger)
+    public PriceNegotiationService(IMapper mapper, PriceNegotiationDbContext dbContext,
+        ILogger<PriceNegotiationService> logger)
     {
         _mapper = mapper;
         _dbContext = dbContext;
@@ -28,12 +39,21 @@ public class PriceNegotiationService : IPriceNegotiationService
         var products = await _dbContext.Products.ToListAsync();
         return _mapper.Map<List<GetProductDto>>(products);
     }
-    public async Task<GetPriceProposalDto> GetPriceProposalById(int id){
+
+    public async Task<List<GetPriceProposalDto>> GetAllPriceProposalsAdmin()
+    {
+        var proposals = await _dbContext.PriceProposals.ToListAsync();
+        return _mapper.Map<List<GetPriceProposalDto>>(proposals);
+    }
+
+    public async Task<GetPriceProposalDto> GetPriceProposalByIdAdmin(int id)
+    {
         var proposal = await _dbContext.PriceProposals.FindAsync(id);
         if (proposal is null)
         {
             throw new NotFoundException("Proposal id not found.");
         }
+
         return _mapper.Map<GetPriceProposalDto>(proposal);
     }
 
@@ -41,7 +61,7 @@ public class PriceNegotiationService : IPriceNegotiationService
     {
         _logger.LogInformation($"Adding or updating price proposal {priceProposal}.");
 
-        var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == priceProposal.ProductId)?? 
+        var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == priceProposal.ProductId) ??
                       throw new NotFoundException("Product not found.");
 
         var howManyAttempts = _dbContext.PriceProposals.Count(p =>
@@ -55,17 +75,18 @@ public class PriceNegotiationService : IPriceNegotiationService
             ProductDescription = product.ProductDescription,
             ProposedPrice = priceProposal.ProposedPrice,
             Accepted = false,
-            AttemptsLeft =2-howManyAttempts,
+            AttemptsLeft = 2 - howManyAttempts,
             Message = string.Empty,
-            UserId=priceProposal.UserId
+            UserId = priceProposal.UserId
         };
-        if (!newProposal.Accepted && newProposal.AttemptsLeft > 0 && priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
+        if (!newProposal.Accepted && newProposal.AttemptsLeft > 0 &&
+            priceProposal.ProposedPrice > 2 * newProposal.ProductPrice)
         {
             throw new BadRequestException(
                 "The proposed price is more than twice the product price. The price proposal is rejected.");
         }
 
-        if (!newProposal.Accepted && newProposal.AttemptsLeft <=3 && newProposal.AttemptsLeft >=0) 
+        if (!newProposal.Accepted && newProposal.AttemptsLeft <= 3 && newProposal.AttemptsLeft >= 0)
         {
             newProposal.AttemptsLeft--;
             await _dbContext.PriceProposals.AddAsync(newProposal);
@@ -73,13 +94,6 @@ public class PriceNegotiationService : IPriceNegotiationService
         }
 
         return _mapper.Map<PriceProposalDto>(newProposal);
-    }
-
-    public async Task<List<GetPriceProposalDto>> GetAllPriceProposals()
-    {
-        var proposals = await _dbContext.PriceProposals.ToListAsync();
-        var proposalsDto = _mapper.Map<List<GetPriceProposalDto>>(proposals);
-        return _mapper.Map<List<GetPriceProposalDto>>(proposals);
     }
 
     public async Task UpdateProposalStatus(UpdateProposalStatusDto dto)
@@ -111,5 +125,5 @@ public class PriceNegotiationService : IPriceNegotiationService
 
         await _dbContext.SaveChangesAsync();
     }
-
+}
 }

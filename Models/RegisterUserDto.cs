@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace PriceNegotiationApp.Models;
+﻿namespace PriceNegotiationApp.Models;
 
 public class RegisterUserDto
 {

@@ -15,10 +15,9 @@ Implementation Requirements:
 
 # Things for future improvements
 
-	- Add update endpoint in the ProductCatalogueService
-	- Add Authorization
-	- Add to ErrorHandlingMiddleware
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
+	- Add custom authorization requirements
+	
 
 
 
