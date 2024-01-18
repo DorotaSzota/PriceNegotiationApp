@@ -6,7 +6,7 @@ namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize]
+[Authorize(Roles = "Admin, User")]
 public class PriceNegotiationController : ControllerBase
 {
     private readonly IPriceNegotiationService _priceNegotiationService;
@@ -25,6 +25,7 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("GetPriceProposalById/{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id)
     {
         var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id);
@@ -40,14 +41,16 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("GetAllPriceProposals")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals()
     {
 
         var serviceResponse = await _priceNegotiationService.GetAllPriceProposals();
         return Ok(serviceResponse);
     }
-
+    
     [HttpPut("UpdatePriceProposal")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> UpdatePriceProposal([FromBody] UpdateProposalStatusDto dto)
     {
         await _priceNegotiationService.UpdateProposalStatus(dto);

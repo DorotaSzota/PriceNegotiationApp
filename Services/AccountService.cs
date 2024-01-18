@@ -32,7 +32,7 @@ public class AccountService : IAccountService
             LastName = dto.LastName,
             Email = dto.Email,
             Password = dto.Password,
-            RoleId = 2,
+            RoleId = 2, //dto.RoleId to register an admin
         };
         var hashedPassword = _passwordHasher.HashPassword(newUser, dto.Password);
         newUser.Password = hashedPassword;

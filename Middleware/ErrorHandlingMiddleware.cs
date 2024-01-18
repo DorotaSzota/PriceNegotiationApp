@@ -41,6 +41,11 @@ public class ErrorHandlingMiddleware: IMiddleware
             context.Response.StatusCode = 403;
             await context.Response.WriteAsync("Forbidden.");
         }
+        catch (InternalServerErrorException internalServerErrorException)
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsync("Internal server error.");
+        }
         catch (Exception e)
         {
             _logger.LogError(e, e.Message);
