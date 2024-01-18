@@ -26,10 +26,20 @@ public class ErrorHandlingMiddleware: IMiddleware
             context.Response.StatusCode = 400;
             await context.Response.WriteAsync(badRequestException.Message);
         }
+        catch (UnauthorizedException unauthorizedException)
+        {
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsync("You are not authorized to view the requested resources.");
+        }
         catch (NotFoundException notFoundException)
         {
             context.Response.StatusCode = 404;
             await context.Response.WriteAsync("Not found.");
+        }
+        catch (ForbiddenException forbiddenException)
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync("Forbidden.");
         }
         catch (Exception e)
         {
@@ -38,5 +48,6 @@ public class ErrorHandlingMiddleware: IMiddleware
             await context.Response.WriteAsync("Invalid action.");
         }
     }
+
     
 }

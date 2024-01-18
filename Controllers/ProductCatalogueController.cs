@@ -1,4 +1,5 @@
-﻿using PriceNegotiationApp.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
 
 
@@ -6,6 +7,7 @@ namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize(Roles = "Admin")]
 public class ProductCatalogueController : ControllerBase
 {
     private readonly IProductCatalogueService _productCatalogueService;

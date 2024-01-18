@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PriceNegotiationApp.Data;
+﻿using Microsoft.AspNetCore.Authorization;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
 
@@ -7,6 +6,7 @@ namespace PriceNegotiationApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class PriceNegotiationController : ControllerBase
 {
     private readonly IPriceNegotiationService _priceNegotiationService;
