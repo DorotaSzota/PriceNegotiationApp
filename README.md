@@ -16,7 +16,7 @@ Implementation Requirements:
 # Things for future improvements
 
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
-	- Add custom authorization requirements
+	- Add enpoints (GetAllPriceProposals, GetPriceProposalById) for a user in the PriceNegotiation module.
 	
 
 
