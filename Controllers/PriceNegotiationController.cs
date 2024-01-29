@@ -24,7 +24,7 @@ public class PriceNegotiationController : ControllerBase
         return Ok(serviceResponse);
     }
     [HttpPost("AddPriceProposal")]
-    public async Task<ActionResult<PriceProposalDto>> AddPriceProposal([FromQuery] PriceProposalDto priceProposal)
+    public async Task<ActionResult<PriceProposalDto>> AddPriceProposal(PriceProposalDto priceProposal)
     {
         var serviceResponse = await _priceNegotiationService.AddPriceProposal(priceProposal);
         return Ok(serviceResponse);
