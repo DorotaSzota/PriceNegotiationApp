@@ -1,4 +1,6 @@
-﻿namespace PriceNegotiationApp.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace PriceNegotiationApp.Models;
 
 public class GetProductDto
 {
@@ -6,7 +8,8 @@ public class GetProductDto
     public string ProductName { get; set; }
     public ProductCategory ProductCategory { get; set; }
     public string ProductDescription { get; set; }
-    public decimal ProductPrice { get; set; }
+    public decimal? ProductPrice { get; set; }
     public bool IsAvailable { get; set; } = true;
+    public bool PriceVisible { get; set; }
 
 }

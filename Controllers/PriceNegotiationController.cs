@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using PriceNegotiationApp.Models;
 using PriceNegotiationApp.Services;
+using System.Security.Claims;
 
 namespace PriceNegotiationApp.Controllers;
 
@@ -18,9 +19,9 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("BrowseProducts")]
-    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts()
+    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts(ClaimsPrincipal user)
     {
-        var serviceResponse = await _priceNegotiationService.GetAllProducts();
+        var serviceResponse = await _priceNegotiationService.GetAllProducts(user);
         return Ok(serviceResponse);
     }
     [HttpPost("AddPriceProposal")]
@@ -31,20 +32,18 @@ public class PriceNegotiationController : ControllerBase
 
     }
 
-    [HttpGet("GetAllPriceProposalsAdmin")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposalsAdmin()
+    [HttpGet("GetAllPriceProposals")]
+    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals(RegisterUserDto dto)
     {
 
-        var serviceResponse = await _priceNegotiationService.GetAllPriceProposalsAdmin();
+        var serviceResponse = await _priceNegotiationService.GetAllPriceProposals(dto);
         return Ok(serviceResponse);
     }
 
-    [HttpGet("GetPriceProposalByIdAdmin/{id}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalByIdAdmin(int id)
+    [HttpGet("GetPriceProposalById/{id}")]
+    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id, RegisterUserDto dto)
     {
-        var serviceResponse = await _priceNegotiationService.GetPriceProposalByIdAdmin(id);
+        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id, dto);
         return Ok(serviceResponse);
     }
 

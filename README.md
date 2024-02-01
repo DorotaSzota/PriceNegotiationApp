@@ -17,9 +17,11 @@ Implementation Requirements:
 
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
 	- Add enpoints (GetAllPriceProposals, GetPriceProposalById) for a user in the PriceNegotiation module.
+	- Add datetime fields to price proposals (DateCreated, DateModified etc.) in the PriceNegotiation module.
  	- Unit tests need rework (previously these were made using the MediatR library)
 	
 
-
+login: admin@email.com pswd: admin1234
+login: johndoe@email.com pswn: user1234
 
 	
