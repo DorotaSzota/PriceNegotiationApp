@@ -19,7 +19,7 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("BrowseProducts")]
-    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts(ClaimsPrincipal user)
+    public async Task<ActionResult<List<GetProductDto>>> GetAllProducts([FromQuery] ClaimsPrincipal user)
     {
         var serviceResponse = await _priceNegotiationService.GetAllProducts(user);
         return Ok(serviceResponse);
@@ -33,7 +33,7 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("GetAllPriceProposals")]
-    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals(RegisterUserDto dto)
+    public async Task<ActionResult<List<GetPriceProposalDto>>> GetAllPriceProposals([FromQuery] UserRoleDto dto)
     {
 
         var serviceResponse = await _priceNegotiationService.GetAllPriceProposals(dto);
@@ -41,9 +41,9 @@ public class PriceNegotiationController : ControllerBase
     }
 
     [HttpGet("GetPriceProposalById/{id}")]
-    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById(int id, RegisterUserDto dto)
+    public async Task<ActionResult<GetPriceProposalDto>> GetPriceProposalById([FromRoute] int id, [FromQuery] ClaimsPrincipal user)
     {
-        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id, dto);
+        var serviceResponse = await _priceNegotiationService.GetPriceProposalById(id, user);
         return Ok(serviceResponse);
     }
 

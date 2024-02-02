@@ -6,14 +6,15 @@ using PriceNegotiationApp.Exceptions;
 using PriceNegotiationApp.Mappers;
 using PriceNegotiationApp.Models;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace PriceNegotiationApp.Services
 {
 public interface IPriceNegotiationService
 {
     Task<List<GetProductDto>> GetAllProducts(ClaimsPrincipal user);
-    Task<List<GetPriceProposalDto>> GetAllPriceProposals(RegisterUserDto dto);
-    Task<GetPriceProposalDto> GetPriceProposalById(int id, RegisterUserDto dto);
+    Task<List<GetPriceProposalDto>> GetAllPriceProposals(UserRoleDto dto);
+    Task<GetPriceProposalDto> GetPriceProposalById(int id, ClaimsPrincipal user);
     Task<PriceProposalDto> AddPriceProposal(PriceProposalDto priceProposal);
     Task UpdateProposalStatus(UpdateProposalStatusDto dto);
 
@@ -39,6 +40,7 @@ public class PriceNegotiationService : IPriceNegotiationService
         var isAdmin = user.IsInRole("Admin");
         var products = await _dbContext.Products.ToListAsync();
         var productDtos = _mapper.Map<List<GetProductDto>>(products);
+
         foreach (var productDto in productDtos)
         {
             if (isAdmin)
@@ -53,48 +55,55 @@ public class PriceNegotiationService : IPriceNegotiationService
         }
 
         return productDtos;
-        }
+    }
 
-    public async Task<List<GetPriceProposalDto>> GetAllPriceProposals(RegisterUserDto dto)
+    public async Task<List<GetPriceProposalDto>> GetAllPriceProposals(UserRoleDto dto)
     {
         var proposals = await _dbContext.PriceProposals.ToListAsync();
         if (dto.RoleId == 1)
-        { return _mapper.Map<List<GetPriceProposalDto>>(proposals); }
+        {
+            proposals.ForEach(p => p.ProductPriceVisible = true);
+            return _mapper.Map<List<GetPriceProposalDto>>(proposals);
+        }
         if (dto.RoleId == 2)
         {
             var proposals2 = await _dbContext.PriceProposals.Where(p => p.UserId == dto.Id).ToListAsync();
+            foreach (var proposal in proposals2)
+            {
+                proposal.ProductPrice = null;
+                proposal.ProductPriceVisible = false;
+            }
             return _mapper.Map<List<GetPriceProposalDto>>(proposals2);
         }
         else
         {
             throw new UnauthorizedException("You are not authorized to view this page.");
         }
-        
+
     }
 
-    public async Task<GetPriceProposalDto> GetPriceProposalById(int id, RegisterUserDto dto)
+        public async Task<GetPriceProposalDto> GetPriceProposalById( int id, ClaimsPrincipal user)
     {
         var proposal = await _dbContext.PriceProposals.FindAsync(id);
+        var productDto = _mapper.Map<GetPriceProposalDto>(proposal);
+        var isAdmin = user.IsInRole("Admin");
+        
         if (proposal is null)
         {
             throw new NotFoundException("Proposal id not found.");
         }
 
-        if (dto.RoleId == 1)
+        if (isAdmin)
         {
-            return _mapper.Map<GetPriceProposalDto>(proposal);
-        }
-
-        if (dto.RoleId == 2)
-        {
-            if (proposal.UserId == dto.Id)
-            {
+                proposal.ProductPriceVisible = true;
                 return _mapper.Map<GetPriceProposalDto>(proposal);
-            }
-            else
-            {
-                throw new UnauthorizedException("You are not authorized to view this page.");
-            }
+        }
+        if (!isAdmin)
+        {
+                proposal.ProductPrice = null;
+                proposal.ProductPriceVisible = false;
+                return _mapper.Map<GetPriceProposalDto>(proposal);
+         
         }
         else
         {

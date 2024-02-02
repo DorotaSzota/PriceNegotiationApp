@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PriceNegotiationApp.Data;
 
@@ -10,9 +11,11 @@ using PriceNegotiationApp.Data;
 namespace PriceNegotiationApp.Migrations
 {
     [DbContext(typeof(PriceNegotiationDbContext))]
-    partial class PriceNegotiationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240201111256_PriceProposal20240201a")]
+    partial class PriceProposal20240201a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -87,8 +90,7 @@ namespace PriceNegotiationApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal?>("ProductPrice")
-                        .IsRequired()
+                    b.Property<decimal>("ProductPrice")
                         .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
