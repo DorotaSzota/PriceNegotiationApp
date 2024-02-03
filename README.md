@@ -17,7 +17,7 @@ Implementation Requirements:
 
 	- Logs are optional in this project, might as well be opted out in Services and Program.cs
 	- Add datetime fields to price proposals (DateCreated, DateModified etc.) in the PriceNegotiation module.
-	- Only the basic unit tests are added. The tests can be improved and added for the rest of the methods.
+	- Only the basic unit tests are added (available as a .zip file in the solution). The tests can be improved and added for the rest of the methods.
 	- The app was previously running on MediatR pattern, but it was removed due to the simplicity of the project. It can be added back in the future for better scalability and maintainability.
 
 
