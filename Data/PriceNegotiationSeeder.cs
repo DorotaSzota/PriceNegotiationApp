@@ -15,6 +15,12 @@ public class PriceNegotiationSeeder
     {
         if (_dbContext.Database.CanConnect())
         {
+            var pendingMigrations = _dbContext.Database.GetPendingMigrations();
+            if (pendingMigrations != null && pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
+            }
+
             if (!_dbContext.PriceProposals.Any())
             {
                 var priceProposals = GetPriceProposals();

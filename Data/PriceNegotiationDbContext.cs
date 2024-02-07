@@ -5,16 +5,16 @@ namespace PriceNegotiationApp.Data;
 public class PriceNegotiationDbContext : DbContext
 {
     //!!!IMPORTANT!!! For future migrations comment out the seeder fields and the constructor
-    public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
-    { }
+    /*public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
+    { }*/
 
     private readonly PriceNegotiationSeeder _seeder;
 
-    //public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
-    //{
-    //    _seeder = new PriceNegotiationSeeder(this);
-    //    _seeder.Seed();
-    //}
+    public PriceNegotiationDbContext(DbContextOptions<PriceNegotiationDbContext> options) : base(options)
+    {
+        _seeder = new PriceNegotiationSeeder(this);
+        _seeder.Seed();
+    }
 
     public DbSet<Product> Products => Set<Product>();
     public DbSet<PriceProposal> PriceProposals => Set<PriceProposal>();
